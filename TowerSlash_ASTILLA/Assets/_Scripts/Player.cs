@@ -6,15 +6,13 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private List<Enemy> list_enemy;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (collision.gameObject.GetComponent<Enemy>() != null)
+        {
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            enemy.GetComponentInChildren<ArrowClass>()._isPlayerNear = true;
+            list_enemy.Add(enemy);
+        }
     }
 }
