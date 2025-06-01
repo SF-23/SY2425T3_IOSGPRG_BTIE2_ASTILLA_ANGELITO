@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
 
     private void DoDestoryEnemy()
     {
+        SpawnManager.Instance.DeListEnemy(this.gameObject);
         Destroy(this.gameObject);
     }
 

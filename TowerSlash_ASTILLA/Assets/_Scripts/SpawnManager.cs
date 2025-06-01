@@ -2,17 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnManager : MonoBehaviour
+public class SpawnManager : Singleton<SpawnManager>
 {
+    [SerializeField] private GameObject _enemyToSpawn;
+    [SerializeField] private List<GameObject> _enemyList;
+    [SerializeField] private int _spawnCount = 5;
+    [SerializeField] private float _spawnDelay = 5f;   
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartCoroutine(CO_StartWave());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator CO_StartWave()
     {
-        
+        while(_spawnCount > 0)
+        {
+            SpawnEnemy();
+            yield return new WaitForSeconds(_spawnDelay);
+            _spawnCount--;
+        }
+    }
+
+    private void SpawnEnemy()
+    {
+        _enemyToSpawn =  Instantiate(_enemyToSpawn, this.transform.position, this.transform.rotation);
+        _enemyList.Add(_enemyToSpawn);
+    }
+
+    public void DeListEnemy(GameObject enemy)
+    {
+        _enemyList.Remove(enemy);
     }
 }
