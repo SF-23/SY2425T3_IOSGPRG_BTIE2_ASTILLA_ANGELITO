@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 99233522}
   - component: {fileID: 99233521}
+  - component: {fileID: 99233526}
   - component: {fileID: 99233523}
   - component: {fileID: 99233525}
   - component: {fileID: 99233524}
@@ -268,6 +269,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   list_enemy: []
+  playerLife: 3
+  _dashValue: 0
+  slider_dashGuage: {fileID: 984651325}
+  _canDash: 0
 --- !u!50 &99233525
 Rigidbody2D:
   serializedVersion: 4
@@ -295,6 +300,41 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!58 &99233526
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99233520}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &184360802
 GameObject:
   m_ObjectHideFlags: 0
@@ -949,10 +989,22 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 99233524}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: DoDash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1301522489
 GameObject:
   m_ObjectHideFlags: 0
@@ -1134,6 +1186,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backGround: {fileID: 283873086}
   bgSpeed: 0.5
+  player: {fileID: 99233524}
+  _dashValue: 0.5
 --- !u!4 &1849077441
 Transform:
   m_ObjectHideFlags: 0

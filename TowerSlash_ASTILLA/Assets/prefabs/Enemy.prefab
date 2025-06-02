@@ -133,8 +133,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa75fd2d5a183bc498d3186b92a3c766, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyType: 0
   speed: 0.6
-  arrow: {fileID: 348778776621524874}
+  _arrow: {fileID: 348778776621524874}
 --- !u!61 &1785591860651214424
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -428,6 +429,8 @@ MonoBehaviour:
   _arrowSR: {fileID: 4845278543913785329}
   _arrowBG: {fileID: 5100053469612329501}
   enum_arrowDirection: 0
+  enum_arrowColor: 0
   _interval: 0.3
   _isPlayerNear: 0
   _isColorRed: 0
+  _isColorYellow: 0

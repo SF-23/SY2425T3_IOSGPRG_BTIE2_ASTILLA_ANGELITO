@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ArrowColor
+{
+    Red,Yellow,Green
+}
+
 public class ArrowClass : MonoBehaviour
 {
     [Header("References")]
@@ -13,9 +18,13 @@ public class ArrowClass : MonoBehaviour
     public Direction _getEnumArrowDir { get { return enum_arrowDirection; } }
 
     [Header("Options")]
+    [SerializeField] private ArrowColor enum_arrowColor;
     [SerializeField] private float _interval;
     [SerializeField] public bool _isPlayerNear;
     [SerializeField] private bool _isColorRed = false;
+    [SerializeField] private bool _isColorYellow = false;
+
+    public ArrowColor _setEnumArrowColor { get { return _setEnumArrowColor; } set { enum_arrowColor = value; } }
 
     public bool _getIsColorRed { get { return _isColorRed; } }
 
@@ -25,7 +34,18 @@ public class ArrowClass : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(CO_RotateArrow());
+        SetArrowColor();
+
+        if(enum_arrowColor == ArrowColor.Yellow)
+        {
+            StartCoroutine(CO_RotateArrow());
+        }
+    }
+
+    private void SetRandomArrowDir()
+    {
+        int randomIndex = Random.Range(0, 3);
+        _arrowSR.sprite = _arrowSprites[randomIndex];
     }
 
     private IEnumerator CO_RotateArrow()
@@ -45,7 +65,6 @@ public class ArrowClass : MonoBehaviour
         {
             _arrowBG.SetActive(true);
             ArrowEnumUpdate();
-            ChangeArrowColor();
             yield break;
             // show black box & stop rotating
         }
@@ -73,18 +92,23 @@ public class ArrowClass : MonoBehaviour
         }
     }
 
-    private void ChangeArrowColor()
+    private void SetArrowColor()
     {
-        int randomIndex = Random.Range(0, 20);
-
-        if (randomIndex % 2 == 0)
+        switch(enum_arrowColor)
         {
-            _arrowSR.color = Color.green;
-        }
-        else
-        {
-            _arrowSR.color = Color.red;
-            _isColorRed = true;
+            case ArrowColor.Red:
+                _arrowSR.color = Color.red;
+                SetRandomArrowDir();
+                break;
+            case ArrowColor.Green:
+                _arrowSR.color = Color.green;
+                SetRandomArrowDir();
+                break;
+            case ArrowColor.Yellow:
+                _arrowSR.color = Color.yellow;
+                break;
+            default:
+                return;
         }
     }
 }
