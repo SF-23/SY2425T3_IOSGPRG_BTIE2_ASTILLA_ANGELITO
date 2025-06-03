@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SpawnManager : Singleton<SpawnManager>
 {
+    [SerializeField] public List<GameObject> _enemyList;
     [SerializeField] private GameObject _enemyToSpawn;
-    [SerializeField] private List<GameObject> _enemyList;
     [SerializeField] private int _spawnCount = 5;
     [SerializeField] private float _spawnDelay = 5f;   
 

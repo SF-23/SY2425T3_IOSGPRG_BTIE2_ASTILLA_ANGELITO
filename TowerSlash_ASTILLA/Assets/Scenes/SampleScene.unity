@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 99233522}
   - component: {fileID: 99233521}
-  - component: {fileID: 99233526}
   - component: {fileID: 99233523}
   - component: {fileID: 99233525}
   - component: {fileID: 99233524}
@@ -268,7 +267,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f67f8121a6d5a74d8858369181369f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  list_enemy: []
   playerLife: 3
   _dashValue: 0
   slider_dashGuage: {fileID: 984651325}
@@ -300,41 +298,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!58 &99233526
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 99233520}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!1 &184360802
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,8 +1012,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01553516b7dd23248a09917ba705acc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyToSpawn: {fileID: 4986214864186104021, guid: ebe90283356d58043ab217d4b4cfef8f, type: 3}
   _enemyList: []
+  _enemyToSpawn: {fileID: 4986214864186104021, guid: ebe90283356d58043ab217d4b4cfef8f, type: 3}
   _spawnCount: 5
   _spawnDelay: 5
 --- !u!1 &1460272092

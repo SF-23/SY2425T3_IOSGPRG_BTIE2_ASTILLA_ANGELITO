@@ -136,6 +136,9 @@ MonoBehaviour:
   _enemyType: 0
   speed: 0.6
   _arrow: {fileID: 348778776621524874}
+  isKilled: 0
+  _canSwipe: 0
+  isPlayerNear: 0
 --- !u!61 &1785591860651214424
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -189,7 +192,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4986214864186104021}
-  m_BodyType: 2
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

@@ -38,11 +38,12 @@ public class Enemy : MonoBehaviour
         this.transform.Translate(0, -speed * Time.deltaTime, 0);
     }
 
-    private void DoDestoryEnemy()
+    private void DoSwipeDestoryEnemy()
     {
         if(_canSwipe)
         {
             SpawnManager.Instance.DeListEnemy(this.gameObject);
+            _canSwipe = false;
             GameManager.Instance.PlayerDashPlus();
 
             if (!isKilled)
@@ -50,6 +51,12 @@ public class Enemy : MonoBehaviour
                 Destroy(this.gameObject);
             }
         } 
+    }
+
+    private void DoEnemyCollidePlayer()
+    {
+        SpawnManager.Instance.DeListEnemy(this.gameObject);
+        Destroy(this.gameObject);
     }
 
     private void SetArrowColor()
@@ -74,7 +81,7 @@ public class Enemy : MonoBehaviour
     {
         SwipeDirectionManager sDM = SwipeDirectionManager.Instance;
 
-        if (_arrow._getIsColorRed)    //red means opposite swipe
+        if (_enemyType == EnemyType.Opp)    //red means opposite swipe
         {
             if(
                (_arrow._getEnumArrowDir == Direction.Right && sDM.enum_currentDir == Direction.Left) || 
@@ -83,14 +90,14 @@ public class Enemy : MonoBehaviour
                (_arrow._getEnumArrowDir == Direction.Down && sDM.enum_currentDir == Direction.Up)
               )
             {
-                DoDestoryEnemy();
+                DoSwipeDestoryEnemy();
             }
         }
         else 
         {
             if(_arrow._getEnumArrowDir == sDM.enum_currentDir)
             {
-                DoDestoryEnemy();
+                DoSwipeDestoryEnemy();
             }
         }
     }

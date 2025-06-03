@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private List<Enemy> list_enemy;
 
     [SerializeField] private int playerLife = 3;
 
@@ -32,15 +31,13 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Enemy>() != null)
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            enemy.GetComponentInChildren<ArrowClass>()._setIsPlayerNear = true;
-            list_enemy.Add(enemy);
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();           //regardless of which enemy is near, I want the boolean for the arrowBG to appear
+            enemy.GetComponentInChildren<ArrowClass>()._setIsPlayerNear = true;  
 
-            if (list_enemy.Count > 0 && enemy == list_enemy[0])
+            if(SpawnManager.Instance._enemyList.Count > 0)
             {
-                enemy._setCanSwipe = true;
+                SpawnManager.Instance._enemyList[0].GetComponent<Enemy>()._setCanSwipe = true;  //this is to specifically target the 1st in the index of the list
                 Debug.Log("The enemy added is the first game object in the list!");
-                // You can add your specific logic here for when it's the first
             }
         }
     }

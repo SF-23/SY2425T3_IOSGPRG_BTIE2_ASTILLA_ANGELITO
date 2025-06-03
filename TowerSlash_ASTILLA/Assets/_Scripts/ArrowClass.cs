@@ -21,14 +21,10 @@ public class ArrowClass : MonoBehaviour
     [SerializeField] private ArrowColor enum_arrowColor;
     [SerializeField] private float _interval;
     [SerializeField] private bool _isPlayerNear;
-    [SerializeField] private bool _isColorRed = false;
-    [SerializeField] private bool _isColorYellow = false;
 
     private int _currentArrow = 0;
 
     public ArrowColor _setEnumArrowColor { get { return _setEnumArrowColor; } set { enum_arrowColor = value; } }
-
-    public bool _getIsColorRed { get { return _isColorRed; } }
 
     private void Start()
     {
