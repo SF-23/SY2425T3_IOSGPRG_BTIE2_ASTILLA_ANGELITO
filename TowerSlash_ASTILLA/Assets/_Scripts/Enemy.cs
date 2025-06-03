@@ -13,10 +13,13 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float speed = 0.2f;
     [SerializeField] private ArrowClass _arrow;
     [SerializeField] private bool isKilled = false;
+    [SerializeField] private bool _canSwipe = false;
     [SerializeField] private bool isPlayerNear;
     public bool _setPlayerNear { get { return _setPlayerNear; } set { _setPlayerNear = value; } }
 
     public bool _getIsKilled { get { return isKilled; } }
+
+    public bool _setCanSwipe { get { return _canSwipe; } set { _canSwipe = value; } }
 
     private void Start()
     {
@@ -37,13 +40,16 @@ public class Enemy : MonoBehaviour
 
     private void DoDestoryEnemy()
     {
-        SpawnManager.Instance.DeListEnemy(this.gameObject);
-        GameManager.Instance.PlayerDashPlus();
-
-        if(!isKilled)
+        if(_canSwipe)
         {
-            Destroy(this.gameObject);
-        }
+            SpawnManager.Instance.DeListEnemy(this.gameObject);
+            GameManager.Instance.PlayerDashPlus();
+
+            if (!isKilled)
+            {
+                Destroy(this.gameObject);
+            }
+        } 
     }
 
     private void SetArrowColor()

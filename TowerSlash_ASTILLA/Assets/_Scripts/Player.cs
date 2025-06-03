@@ -34,12 +34,16 @@ public class Player : MonoBehaviour
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             enemy.GetComponentInChildren<ArrowClass>()._setIsPlayerNear = true;
-            
             list_enemy.Add(enemy);
+
+            if (list_enemy.Count > 0 && enemy == list_enemy[0])
+            {
+                enemy._setCanSwipe = true;
+                Debug.Log("The enemy added is the first game object in the list!");
+                // You can add your specific logic here for when it's the first
+            }
         }
     }
-
-
 
     private void dashSliderUpdate()
     {
