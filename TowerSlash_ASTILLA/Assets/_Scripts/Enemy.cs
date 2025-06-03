@@ -12,9 +12,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private EnemyType _enemyType;
     [SerializeField] private float speed = 0.2f;
     [SerializeField] private ArrowClass _arrow;
-    
+    [SerializeField] private bool isKilled = false;
     [SerializeField] private bool isPlayerNear;
     public bool _setPlayerNear { get { return _setPlayerNear; } set { _setPlayerNear = value; } }
+
+    public bool _getIsKilled { get { return isKilled; } }
 
     private void Start()
     {
@@ -37,7 +39,11 @@ public class Enemy : MonoBehaviour
     {
         SpawnManager.Instance.DeListEnemy(this.gameObject);
         GameManager.Instance.PlayerDashPlus();
-        Destroy(this.gameObject);
+
+        if(!isKilled)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void SetArrowColor()

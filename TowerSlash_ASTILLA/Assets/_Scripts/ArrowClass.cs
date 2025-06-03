@@ -20,17 +20,15 @@ public class ArrowClass : MonoBehaviour
     [Header("Options")]
     [SerializeField] private ArrowColor enum_arrowColor;
     [SerializeField] private float _interval;
-    [SerializeField] public bool _isPlayerNear;
+    [SerializeField] private bool _isPlayerNear;
     [SerializeField] private bool _isColorRed = false;
     [SerializeField] private bool _isColorYellow = false;
+
+    private int _currentArrow = 0;
 
     public ArrowColor _setEnumArrowColor { get { return _setEnumArrowColor; } set { enum_arrowColor = value; } }
 
     public bool _getIsColorRed { get { return _isColorRed; } }
-
-    public bool _getIsPlayerNear { get { return _isPlayerNear; } }
-
-    private int _currentArrow = 0;
 
     private void Start()
     {
@@ -44,8 +42,22 @@ public class ArrowClass : MonoBehaviour
 
     private void SetRandomArrowDir()
     {
-        int randomIndex = Random.Range(0, 3);
-        _arrowSR.sprite = _arrowSprites[randomIndex];
+        _currentArrow = Random.Range(0, 3);
+        _arrowSR.sprite = _arrowSprites[_currentArrow];
+        ArrowEnumUpdate();
+    }
+
+    public bool _setIsPlayerNear
+    {
+        get { return _isPlayerNear; }
+        set
+        {
+            if (_isPlayerNear != value) // Only react if the value actually changes
+            {
+                _isPlayerNear = value;
+                _arrowBG.SetActive(true);
+            }
+        }
     }
 
     private IEnumerator CO_RotateArrow()

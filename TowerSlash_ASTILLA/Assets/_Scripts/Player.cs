@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,7 +33,8 @@ public class Player : MonoBehaviour
         if (collision.gameObject.GetComponent<Enemy>() != null)
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            enemy.GetComponentInChildren<ArrowClass>()._isPlayerNear = true;
+            enemy.GetComponentInChildren<ArrowClass>()._setIsPlayerNear = true;
+            
             list_enemy.Add(enemy);
         }
     }
