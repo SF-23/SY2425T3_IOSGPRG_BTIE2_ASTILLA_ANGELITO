@@ -26,14 +26,9 @@ public class ArrowClass : MonoBehaviour
 
     public ArrowColor _setEnumArrowColor { get { return _setEnumArrowColor; } set { enum_arrowColor = value; } }
 
-    private void Start()
+    private void Awake()
     {
         SetArrowColor();
-
-        if(enum_arrowColor == ArrowColor.Yellow)
-        {
-            StartCoroutine(CO_RotateArrow());
-        }
     }
 
     private void SetRandomArrowDir()
@@ -114,6 +109,7 @@ public class ArrowClass : MonoBehaviour
                 break;
             case ArrowColor.Yellow:
                 _arrowSR.color = Color.yellow;
+                StartCoroutine(CO_RotateArrow());
                 break;
             default:
                 return;

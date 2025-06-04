@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-
-    [SerializeField] private int playerLife = 3;
+    [SerializeField] private int _playerLife;
+    [SerializeField] private bool _isPlayerAlive = true;
 
     [Header("Dash Variables")]
     [SerializeField] private float _dashValue;
@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _canDash = false;
 
     public float _getSetDashV { get { return _dashValue; } set { _dashValue = value; } }
+
+    public int _setPlayerLife { get { return _playerLife; } set { _playerLife = value; } }
 
     private void Start()
     {
@@ -24,15 +26,27 @@ public class Player : MonoBehaviour
     private void Update()
     {
         dashSliderUpdate();
-        DoDash();
+        //DoDash();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<Enemy>() != null)
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();           //regardless of which enemy is near, I want the boolean for the arrowBG to appear
-            playerLife--;
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            enemy.DoEnemyCollidePlayer();
+            TakeDmg();
+        }
+    }
+
+    private void TakeDmg()
+    {
+        _playerLife--;
+        
+        if( _playerLife <= 0 )
+        {
+            _isPlayerAlive = false;
+            Destroy(gameObject);
         }
     }
 
@@ -47,7 +61,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void DoDash()
+    public void Button_DoDash() //For Button
     {
         if(_canDash)
         {
@@ -73,8 +87,4 @@ public class Player : MonoBehaviour
             yield break;
         }
     }
-
-
-
-
 }

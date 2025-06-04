@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.RestService;
 using UnityEngine;
 
 public enum EnemyType
@@ -26,6 +27,7 @@ public class Enemy : MonoBehaviour
         _enemyType = (EnemyType)Random.Range(0, 3);
         SetArrowColor();
     }
+
     // Update is called once per frame
     void Update()
     {
@@ -45,6 +47,8 @@ public class Enemy : MonoBehaviour
             SpawnManager.Instance.DeListEnemy(this.gameObject);
             _canSwipe = false;
             GameManager.Instance.PlayerDashPlus();
+            GameManager.Instance.AwardScore();
+            GameManager.Instance.RewardPowerUp();
 
             if (!isKilled)
             {
@@ -53,7 +57,7 @@ public class Enemy : MonoBehaviour
         } 
     }
 
-    private void DoEnemyCollidePlayer()
+    public void DoEnemyCollidePlayer()
     {
         SpawnManager.Instance.DeListEnemy(this.gameObject);
         Destroy(this.gameObject);
@@ -80,7 +84,6 @@ public class Enemy : MonoBehaviour
     private void SwipeDestryEnemy()
     {
         SwipeDirectionManager sDM = SwipeDirectionManager.Instance;
-
         if (_enemyType == EnemyType.Opp)    //red means opposite swipe
         {
             if(

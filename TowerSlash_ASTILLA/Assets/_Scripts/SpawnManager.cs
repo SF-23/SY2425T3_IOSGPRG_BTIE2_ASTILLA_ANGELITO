@@ -7,7 +7,9 @@ public class SpawnManager : Singleton<SpawnManager>
     [SerializeField] public List<GameObject> _enemyList;
     [SerializeField] private GameObject _enemyToSpawn;
     [SerializeField] private int _spawnCount = 5;
-    [SerializeField] private float _spawnDelay = 5f;   
+    [SerializeField] private float _maxSpawnDelay = 5f;
+    [SerializeField] private float _minSpawnDelay = 2f;
+    //[SerializeField] private float _spawnDelay = 5f;   
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +22,9 @@ public class SpawnManager : Singleton<SpawnManager>
         while(_spawnCount > 0)
         {
             SpawnEnemy();
-            yield return new WaitForSeconds(_spawnDelay);
+            float _currentSpawnDelay = Random.Range(_minSpawnDelay, _maxSpawnDelay);
+            Debug.Log("Next enemy will spawn in: " + _currentSpawnDelay.ToString("F2") + " seconds.");
+            yield return new WaitForSeconds(_currentSpawnDelay);
             _spawnCount--;
         }
     }
