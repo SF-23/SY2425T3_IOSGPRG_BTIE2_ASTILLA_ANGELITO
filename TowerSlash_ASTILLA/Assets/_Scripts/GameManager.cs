@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -10,7 +11,7 @@ public class GameManager : Singleton<GameManager>
     private Vector2 _bgOffset;
 
     [Header("Player Variables")]
-    [SerializeField] private Player _player;
+    [SerializeField] private GameObject _player;
     [SerializeField] private bool _isPlayerTypeSpeed = false;
     [SerializeField] private float _dashValue = 0.05f;
     [SerializeField] private int _scoreToAward = 10;
@@ -20,7 +21,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        PreGameStart();
+       // PreGameStart();
     }
 
     // Update is called once per frame
@@ -40,12 +41,12 @@ public class GameManager : Singleton<GameManager>
     {
         if(!_isPlayerTypeSpeed)
         {
-            _player._getSetDashV += _dashValue; //default val 0.05
+            _player.GetComponentInChildren<Player>()._getSetDashV += _dashValue; //default val 0.05
         }
         else
         {
             _dashValue = 0.1f;
-            _player._getSetDashV += _dashValue;
+            _player.GetComponentInChildren<Player>()._getSetDashV += _dashValue;
         }
        
     }
@@ -62,7 +63,7 @@ public class GameManager : Singleton<GameManager>
 
         if(randomValue <= _randomChance)
         {
-            _player._setPlayerLife += _extraLife;
+            _player.GetComponent<Player>()._getSetPlayerLife += _extraLife;
         }
     }
 
@@ -76,27 +77,41 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = 1f;
     }
 
+    private void DoGameReset()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
+
     public void Button_Default()
     {
-        _player.GetComponent<SpriteRenderer>().material.color = Color.gray;
+        _player.SetActive(true);
+        _player.GetComponentInChildren<SpriteRenderer>().material.color = Color.gray;
         UIManager.Instance.TogglePanelPlayerSelect(false);
         GameStart();
     }
 
     public void Button_Tank()
     {
-        _player.GetComponent<SpriteRenderer>().material.color = Color.black;
-        _player._setPlayerLife = 5;
+        _player.SetActive(true);
+        _player.GetComponent<Player>()._getSetPlayerLife = 5;
+        _player.GetComponentInChildren<SpriteRenderer>().material.color = Color.black;
         UIManager.Instance.TogglePanelPlayerSelect(false);
         GameStart();
     }
 
     public void Button_Speed()
     {
-        _player.GetComponent<SpriteRenderer>().material.color = Color.yellow;
+        _player.SetActive(true);
         _isPlayerTypeSpeed = true;
+        _player.GetComponentInChildren<SpriteRenderer>().material.color = Color.yellow;
         UIManager.Instance.TogglePanelPlayerSelect(false);
         GameStart();
+    }
+
+    public void Button_Restart()
+    {
+        UIManager.Instance.ToggleGameOverPanel(false);
+        DoGameReset();
     }
 
 

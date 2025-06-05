@@ -435,5 +435,3 @@ MonoBehaviour:
   enum_arrowColor: 0
   _interval: 0.3
   _isPlayerNear: 0
-  _isColorRed: 0
-  _isColorYellow: 0

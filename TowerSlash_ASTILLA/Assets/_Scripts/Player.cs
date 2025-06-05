@@ -16,10 +16,11 @@ public class Player : MonoBehaviour
 
     public float _getSetDashV { get { return _dashValue; } set { _dashValue = value; } }
 
-    public int _setPlayerLife { get { return _playerLife; } set { _playerLife = value; } }
+    public int _getSetPlayerLife { get { return _playerLife; } set { _playerLife = value; } }
 
     private void Start()
     {
+        UIManager.Instance.playerlifeUiUpdate(_playerLife);
         dashSliderUpdate();
     }
 
@@ -42,10 +43,12 @@ public class Player : MonoBehaviour
     private void TakeDmg()
     {
         _playerLife--;
-        
-        if( _playerLife <= 0 )
+        UIManager.Instance.playerlifeUiUpdate(_playerLife);
+
+        if ( _playerLife <= 0 )
         {
             _isPlayerAlive = false;
+            UIManager.Instance.ToggleGameOverPanel(true);
             Destroy(gameObject);
         }
     }
@@ -58,6 +61,7 @@ public class Player : MonoBehaviour
         if (_dashValue >= 1)
         {
             _canDash = true;
+            UIManager.Instance.ToggleButtonDash(true);
         }
     }
 
@@ -81,6 +85,7 @@ public class Player : MonoBehaviour
 
         if (_dashValue <= 0)
         {
+            UIManager.Instance.ToggleButtonDash(false);
             _dashValue = 0;
             Time.timeScale = 1.0f;
             _canDash = false;

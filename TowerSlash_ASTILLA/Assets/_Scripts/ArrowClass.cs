@@ -31,13 +31,6 @@ public class ArrowClass : MonoBehaviour
         SetArrowColor();
     }
 
-    private void SetRandomArrowDir()
-    {
-        _currentArrow = Random.Range(0, 3);
-        _arrowSR.sprite = _arrowSprites[_currentArrow];
-        ArrowEnumUpdate();
-    }
-
     public bool _setIsPlayerNear
     {
         get { return _isPlayerNear; }
@@ -53,6 +46,7 @@ public class ArrowClass : MonoBehaviour
 
     private IEnumerator CO_RotateArrow()
     {
+        _interval = Random.Range(0.1f, 0.3f);
         yield return new WaitForSeconds(_interval);
 
         _currentArrow++;
@@ -93,6 +87,13 @@ public class ArrowClass : MonoBehaviour
                 Debug.LogWarning("Arrow Enum Error");
                 break;
         }
+    }
+
+    private void SetRandomArrowDir()
+    {
+        _currentArrow = Random.Range(0, 3);
+        _arrowSR.sprite = _arrowSprites[_currentArrow];
+        ArrowEnumUpdate();
     }
 
     private void SetArrowColor()
