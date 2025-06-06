@@ -26,7 +26,7 @@ public class ArrowClass : MonoBehaviour
 
     public ArrowColor _setEnumArrowColor { get { return _setEnumArrowColor; } set { enum_arrowColor = value; } }
 
-    private void Awake()
+    private void Start()
     {
         SetArrowColor();
     }

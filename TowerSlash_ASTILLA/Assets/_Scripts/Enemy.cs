@@ -15,7 +15,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private ArrowClass _arrow;
     [SerializeField] private bool isKilled = false;
     [SerializeField] private bool _canSwipe = false;
-    [SerializeField] private bool isPlayerNear;
+    [SerializeField] private bool _isCorrectSwipe;
+    [SerializeField] private bool _isPlayerNear;
     public bool _setPlayerNear { get { return _setPlayerNear; } set { _setPlayerNear = value; } }
 
     public bool _getIsKilled { get { return isKilled; } }
@@ -32,7 +33,11 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         EnemyMove();
-        SwipeDestryEnemy();
+
+        if(_canSwipe && SwipeDirectionManager.Instance.IsSwipeDetectedThisFrame())
+        {
+            CompareSwipeDirection();
+        }
     }
 
     private void EnemyMove()
@@ -42,25 +47,29 @@ public class Enemy : MonoBehaviour
 
     private void DoSwipeDestoryEnemy()
     {
-        if(_canSwipe)
-        {
-            SpawnManager.Instance.DeListEnemy(this.gameObject);
-            _canSwipe = false;
-            GameManager.Instance.PlayerDashPlus();
-            GameManager.Instance.AwardScore();
-            GameManager.Instance.RewardPowerUp();
 
-            if (!isKilled)
-            {
-                Destroy(this.gameObject);
-            }
-        } 
+        SpawnManager.Instance.DeListEnemy(this.gameObject);
+        _canSwipe = false;
+        GameManager.Instance.PlayerDashPlus();
+        GameManager.Instance.AwardScore();
+        GameManager.Instance.RewardPowerUp();
+
+        if (!isKilled)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
-    public void DoEnemyCollidePlayer()
+    public void DoEnemyCollidePlayer(bool isDashing)
     {
         SpawnManager.Instance.DeListEnemy(this.gameObject);
         Destroy(this.gameObject);
+
+        if (isDashing)
+        {
+            GameManager.Instance.AwardScore();
+            GameManager.Instance.RewardPowerUp();
+        }
     }
 
     private void SetArrowColor()
@@ -81,27 +90,37 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void SwipeDestryEnemy()
+    public void CompareSwipeDirection()
     {
         SwipeDirectionManager sDM = SwipeDirectionManager.Instance;
+
         if (_enemyType == EnemyType.Opp)    //red means opposite swipe
         {
-            if(
-               (_arrow._getEnumArrowDir == Direction.Right && sDM.enum_currentDir == Direction.Left) || 
+            if (
+               (_arrow._getEnumArrowDir == Direction.Right && sDM.enum_currentDir == Direction.Left) ||
                (_arrow._getEnumArrowDir == Direction.Left && sDM.enum_currentDir == Direction.Right) ||
                (_arrow._getEnumArrowDir == Direction.Up && sDM.enum_currentDir == Direction.Down) ||
                (_arrow._getEnumArrowDir == Direction.Down && sDM.enum_currentDir == Direction.Up)
               )
             {
-                DoSwipeDestoryEnemy();
+                _isCorrectSwipe = true;
             }
         }
         else 
         {
-            if(_arrow._getEnumArrowDir == sDM.enum_currentDir)
+            if (_arrow._getEnumArrowDir == sDM.enum_currentDir)
             {
-                DoSwipeDestoryEnemy();
+                _isCorrectSwipe = true;
             }
+        }
+
+        if( _isCorrectSwipe)
+        {
+            DoSwipeDestoryEnemy();
+        }
+        else
+        {
+            GameManager.Instance.PlayerWrongSwipe();
         }
     }
 

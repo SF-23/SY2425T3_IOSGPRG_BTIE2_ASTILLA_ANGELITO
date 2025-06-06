@@ -7,13 +7,9 @@ using UnityEngine.UI;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField] private TextMeshProUGUI txt_currScore;
-
     [SerializeField] private GameObject _panelPlayerSelect;
-
     [SerializeField] private GameObject _panelGameOverScreen;
-
     [SerializeField] private GameObject _buttonDash;
-
     [SerializeField] private TextMeshProUGUI txt_playerLife;
 
     public void ScoreUiUpdate(int score)

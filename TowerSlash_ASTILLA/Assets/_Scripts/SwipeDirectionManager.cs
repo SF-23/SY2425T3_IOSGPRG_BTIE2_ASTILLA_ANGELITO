@@ -12,12 +12,14 @@ public class SwipeDirectionManager : Singleton<SwipeDirectionManager>
 {
     private Vector2 _touchStartPosition;
     public Direction enum_currentDir;
-    [SerializeField] public bool _isSwipeProcessed = false;
+    public bool _isSwipeProcessed = false;
     [SerializeField] private float _minSwipeDistance = 50f;
     [SerializeField] private float _directionThreshold = 0.9f;
 
     private void Update()
     {
+        _isSwipeProcessed = false;
+
         if (Input.touchCount <= 0)
         {
             enum_currentDir = Direction.None;
@@ -31,11 +33,16 @@ public class SwipeDirectionManager : Singleton<SwipeDirectionManager>
         {
             case TouchPhase.Began:
                 _touchStartPosition = touch.position;
-                _isSwipeProcessed = true;
+                //_isSwipeProcessed = true;
                 break;
             case TouchPhase.Ended:
                 EvaluateSwipe(touch.position);
-                _isSwipeProcessed = false;
+
+                if(enum_currentDir != Direction.None)
+                {
+                    _isSwipeProcessed = true;
+                }
+                
                 break;
             default:
                 break;
@@ -86,12 +93,16 @@ public class SwipeDirectionManager : Singleton<SwipeDirectionManager>
         }
 
         StartCoroutine(CO_NoInput());
-        
     }
 
     private IEnumerator CO_NoInput()
     {
         yield return new WaitForSeconds(0.2f);
         enum_currentDir = Direction.None;
+    }
+
+    public bool IsSwipeDetectedThisFrame()
+    {
+        return _isSwipeProcessed;
     }
 }

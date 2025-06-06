@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -19,9 +21,11 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private int _extraLife = 1;
     [SerializeField] private float _randomChance = 3f; //random Chance for PowerUp to spawn
 
+    public System.Action OnRestart{ get; set; }
+
     private void Start()
     {
-       // PreGameStart();
+        PreGameStart();
     }
 
     // Update is called once per frame
@@ -42,6 +46,7 @@ public class GameManager : Singleton<GameManager>
         if(!_isPlayerTypeSpeed)
         {
             _player.GetComponentInChildren<Player>()._getSetDashV += _dashValue; //default val 0.05
+
         }
         else
         {
@@ -63,13 +68,14 @@ public class GameManager : Singleton<GameManager>
 
         if(randomValue <= _randomChance)
         {
-            _player.GetComponent<Player>()._getSetPlayerLife += _extraLife;
+            _player.GetComponentInChildren<Player>()._getSetPlayerMaxLife += _extraLife;
         }
     }
 
     private void PreGameStart()
     {
         Time.timeScale = 0f;
+        UIManager.Instance.TogglePanelPlayerSelect(true);
     }
 
     private void GameStart()
@@ -79,7 +85,16 @@ public class GameManager : Singleton<GameManager>
 
     private void DoGameReset()
     {
-        SceneManager.LoadScene("SampleScene");
+        SpawnManager.Instance.ResetSpawner();
+        //_player.SetActive(true);
+        OnRestart?.Invoke();
+        Start();
+    }
+
+    public void PlayerWrongSwipe()
+    {
+        if(_player != null)
+        _player.GetComponentInChildren<Player>().TakeDmg();
     }
 
     public void Button_Default()
@@ -93,7 +108,7 @@ public class GameManager : Singleton<GameManager>
     public void Button_Tank()
     {
         _player.SetActive(true);
-        _player.GetComponent<Player>()._getSetPlayerLife = 5;
+        _player.GetComponentInChildren<Player>()._getSetPlayerMaxLife = 5;
         _player.GetComponentInChildren<SpriteRenderer>().material.color = Color.black;
         UIManager.Instance.TogglePanelPlayerSelect(false);
         GameStart();

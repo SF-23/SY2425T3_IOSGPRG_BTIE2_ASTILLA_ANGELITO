@@ -6,28 +6,33 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private int _playerLife;
+    [SerializeField] private int _playerCurrLife;
+    [SerializeField] private int _playerMaxLife;
     [SerializeField] private bool _isPlayerAlive = true;
 
     [Header("Dash Variables")]
     [SerializeField] private float _dashValue;
     [SerializeField] private Slider slider_dashGuage;
     [SerializeField] private bool _canDash = false;
+    [SerializeField] private bool _isDashing = false;
 
     public float _getSetDashV { get { return _dashValue; } set { _dashValue = value; } }
 
-    public int _getSetPlayerLife { get { return _playerLife; } set { _playerLife = value; } }
+    public int _getSetPlayerMaxLife { get { return _playerMaxLife; } set {_playerMaxLife = value; } }
 
     private void Start()
     {
-        UIManager.Instance.playerlifeUiUpdate(_playerLife);
+        _playerCurrLife = _playerMaxLife;
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.playerlifeUiUpdate(_playerCurrLife);
+        }
         dashSliderUpdate();
     }
 
     private void Update()
     {
         dashSliderUpdate();
-        //DoDash();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -35,21 +40,31 @@ public class Player : MonoBehaviour
         if (collision.gameObject.GetComponent<Enemy>() != null)
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            enemy.DoEnemyCollidePlayer();
-            TakeDmg();
+            //enemy.DoEnemyCollidePlayer();
+            //TakeDmg();
+
+            if(_isDashing)
+            {
+                enemy.DoEnemyCollidePlayer(_isDashing);
+            }
+            else
+            {
+                TakeDmg();
+                enemy.DoEnemyCollidePlayer(_isDashing);
+            }
         }
     }
 
-    private void TakeDmg()
+    public void TakeDmg()
     {
-        _playerLife--;
-        UIManager.Instance.playerlifeUiUpdate(_playerLife);
+        _playerCurrLife--;
+        UIManager.Instance.playerlifeUiUpdate(_playerCurrLife);
 
-        if ( _playerLife <= 0 )
+        if ( _playerCurrLife <= 0 )
         {
             _isPlayerAlive = false;
             UIManager.Instance.ToggleGameOverPanel(true);
-            Destroy(gameObject);
+            this.gameObject.SetActive(false);
         }
     }
 
@@ -69,6 +84,7 @@ public class Player : MonoBehaviour
     {
         if(_canDash)
         {
+            _isDashing = true;
             Time.timeScale = 30.0f;
             StartCoroutine(CO_DrainDash(0.1f, 100f));
         }
@@ -89,6 +105,7 @@ public class Player : MonoBehaviour
             _dashValue = 0;
             Time.timeScale = 1.0f;
             _canDash = false;
+            _isDashing = false;
             yield break;
         }
     }

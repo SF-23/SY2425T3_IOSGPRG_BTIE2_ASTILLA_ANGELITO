@@ -1298,7 +1298,7 @@ GameObject:
   - component: {fileID: 591377958}
   - component: {fileID: 591377957}
   m_Layer: 5
-  m_Name: Button_PlayerDefault (2)
+  m_Name: Button_Speed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1370,7 +1370,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1849077440}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Button_Tank
+        m_MethodName: Button_Speed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1814,7 +1814,7 @@ GameObject:
   - component: {fileID: 860410835}
   - component: {fileID: 860410834}
   m_Layer: 5
-  m_Name: Button_PlayerDefault (1)
+  m_Name: Button_Tank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2959,7 +2959,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backGround: {fileID: 283873086}
-  _bgSpeed: 0.1
+  _bgSpeed: 0.2
   _player: {fileID: 857188185}
   _isPlayerTypeSpeed: 0
   _dashValue: 0.05
@@ -3187,7 +3187,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332530732412901761, guid: ae023b7bcdfb1cb4abf1e399518fa326, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 459346563989353695, guid: ae023b7bcdfb1cb4abf1e399518fa326, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
@@ -3245,13 +3245,37 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Button_DoDash
       objectReference: {fileID: 0}
+    - target: {fileID: 3111991348268718216, guid: ae023b7bcdfb1cb4abf1e399518fa326, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5761123630140189572, guid: ae023b7bcdfb1cb4abf1e399518fa326, type: 3}
       propertyPath: m_Name
       value: MainPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 5761123630140189572, guid: ae023b7bcdfb1cb4abf1e399518fa326, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6098365155271051694, guid: ae023b7bcdfb1cb4abf1e399518fa326, type: 3}
+      propertyPath: m_Color.b
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6098365155271051694, guid: ae023b7bcdfb1cb4abf1e399518fa326, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6098365155271051694, guid: ae023b7bcdfb1cb4abf1e399518fa326, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7337335906861383947, guid: ae023b7bcdfb1cb4abf1e399518fa326, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7337335906861383947, guid: ae023b7bcdfb1cb4abf1e399518fa326, type: 3}
+      propertyPath: _playerMaxLife
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

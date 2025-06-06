@@ -134,11 +134,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyType: 0
-  speed: 0.6
+  speed: 0.7
   _arrow: {fileID: 348778776621524874}
   isKilled: 0
   _canSwipe: 0
-  isPlayerNear: 0
+  _isCorrectSwipe: 0
+  _isPlayerNear: 0
 --- !u!61 &1785591860651214424
 BoxCollider2D:
   m_ObjectHideFlags: 0

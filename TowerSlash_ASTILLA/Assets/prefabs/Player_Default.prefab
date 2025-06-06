@@ -161,11 +161,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f67f8121a6d5a74d8858369181369f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enum_playerType: 0
-  _playerLife: 3
+  _playerCurrLife: 0
+  _playerMaxLife: 0
   _isPlayerAlive: 1
   _dashValue: 0
-  _addDashVal: 0.05
   slider_dashGuage: {fileID: 1066204688881686641}
   _canDash: 0
 --- !u!1 &2644853047037492176
