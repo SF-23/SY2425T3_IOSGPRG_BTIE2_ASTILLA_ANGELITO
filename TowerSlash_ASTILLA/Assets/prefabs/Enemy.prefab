@@ -432,7 +432,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 71301b8babbd5dc4eb0a08940519e0a4, type: 3}
   _arrowSR: {fileID: 4845278543913785329}
   _arrowBG: {fileID: 5100053469612329501}
-  enum_arrowDirection: 0
-  enum_arrowColor: 0
+  _arrowDirection: 0
+  _arrowColor: 0
   _interval: 0.3
   _isPlayerNear: 0

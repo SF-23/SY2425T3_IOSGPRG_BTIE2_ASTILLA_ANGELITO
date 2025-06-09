@@ -10,9 +10,10 @@ public enum Direction
 
 public class SwipeDirectionManager : Singleton<SwipeDirectionManager>
 {
-    private Vector2 _touchStartPosition;
+    
     public Direction enum_currentDir;
     public bool _isSwipeProcessed = false;
+    private Vector2 _touchStartPosition;
     [SerializeField] private float _minSwipeDistance = 50f;
     [SerializeField] private float _directionThreshold = 0.9f;
 
@@ -47,6 +48,11 @@ public class SwipeDirectionManager : Singleton<SwipeDirectionManager>
             default:
                 break;
         }
+    }
+
+    public bool IsSwipeDetectedThisFrame()
+    {
+        return _isSwipeProcessed;
     }
 
     private void EvaluateSwipe(Vector2 endPosition)
@@ -101,8 +107,5 @@ public class SwipeDirectionManager : Singleton<SwipeDirectionManager>
         enum_currentDir = Direction.None;
     }
 
-    public bool IsSwipeDetectedThisFrame()
-    {
-        return _isSwipeProcessed;
-    }
+   
 }

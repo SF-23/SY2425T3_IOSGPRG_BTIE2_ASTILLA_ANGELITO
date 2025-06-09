@@ -34,13 +34,6 @@ public class GameManager : Singleton<GameManager>
         MoveBackGround();
     }
 
-    private void MoveBackGround()
-    {
-        _bgOffset.x += _bgSpeed * Time.deltaTime;
-
-        backGround.GetComponent<SpriteRenderer>().material.mainTextureOffset = _bgOffset;
-    }
-
     public void PlayerDashPlus()
     {
         if(!_isPlayerTypeSpeed)
@@ -56,45 +49,10 @@ public class GameManager : Singleton<GameManager>
        
     }
 
-    public void AwardScore()
-    {
-        _currScore += _scoreToAward;
-        UIManager.Instance.ScoreUiUpdate(_currScore);
-    }
-
-    public void RewardPowerUp()
-    {
-        float randomValue = Random.Range(0, 100);
-
-        if(randomValue <= _randomChance)
-        {
-            _player.GetComponentInChildren<Player>()._getSetPlayerMaxLife += _extraLife;
-        }
-    }
-
-    private void PreGameStart()
-    {
-        Time.timeScale = 0f;
-        UIManager.Instance.TogglePanelPlayerSelect(true);
-    }
-
-    private void GameStart()
-    {
-        Time.timeScale = 1f;
-    }
-
-    private void DoGameReset()
-    {
-        SpawnManager.Instance.ResetSpawner();
-        //_player.SetActive(true);
-        OnRestart?.Invoke();
-        Start();
-    }
-
     public void PlayerWrongSwipe()
     {
-        if(_player != null)
-        _player.GetComponentInChildren<Player>().TakeDmg();
+        if (_player != null)
+            _player.GetComponentInChildren<Player>().TakeDmg();
     }
 
     public void Button_Default()
@@ -128,6 +86,51 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.ToggleGameOverPanel(false);
         DoGameReset();
     }
+
+    public void AwardScore()
+    {
+        _currScore += _scoreToAward;
+        UIManager.Instance.ScoreUiUpdate(_currScore);
+    }
+
+    public void RewardPowerUp()
+    {
+        float randomValue = Random.Range(0, 100);
+
+        if(randomValue <= _randomChance)
+        {
+            _player.GetComponentInChildren<Player>()._getSetPlayerMaxLife += _extraLife;
+        }
+    }
+
+    private void MoveBackGround()
+    {
+        _bgOffset.x += _bgSpeed * Time.deltaTime;
+
+        backGround.GetComponent<SpriteRenderer>().material.mainTextureOffset = _bgOffset;
+    }
+
+    private void PreGameStart()
+    {
+        Time.timeScale = 0f;
+        UIManager.Instance.TogglePanelPlayerSelect(true);
+    }
+
+    private void GameStart()
+    {
+        Time.timeScale = 1f;
+    }
+
+    private void DoGameReset()
+    {
+        SpawnManager.Instance.ResetSpawner();
+        _currScore = 0;
+        _player.SetActive(true);
+        OnRestart?.Invoke();
+        Start();
+    }
+
+ 
 
 
 }
