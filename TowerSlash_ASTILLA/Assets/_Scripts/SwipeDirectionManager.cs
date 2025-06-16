@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public enum Direction
 {
     Up, 
@@ -14,7 +13,6 @@ public enum Direction
 
 public class SwipeDirectionManager : Singleton<SwipeDirectionManager>
 {
-    
     public Direction enum_currentDir;
     public bool _isSwipeProcessed = false;
     private Vector2 _touchStartPosition;
@@ -30,7 +28,6 @@ public class SwipeDirectionManager : Singleton<SwipeDirectionManager>
             enum_currentDir = Direction.None;
             return;
         }
-           
 
         Touch touch = Input.GetTouch(0);
 
@@ -42,12 +39,12 @@ public class SwipeDirectionManager : Singleton<SwipeDirectionManager>
                 break;
             case TouchPhase.Ended:
                 EvaluateSwipe(touch.position);
-
-                if(enum_currentDir != Direction.None)
+               
+                if (enum_currentDir != Direction.None)
                 {
                     _isSwipeProcessed = true;
                 }
-                
+               
                 break;
             default:
                 break;

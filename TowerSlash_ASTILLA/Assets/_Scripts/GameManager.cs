@@ -1,16 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : Singleton<GameManager>
 {
     [Header("Background Stuff")]
     [SerializeField] private GameObject backGround;
-    [SerializeField] private float _bgSpeed = 0.1f;
-   
+    [SerializeField] private float _bgSpeed = 0.1f;   
 
     [Header("Player Variables")]
     [SerializeField] private GameObject _player;
@@ -36,23 +33,6 @@ public class GameManager : Singleton<GameManager>
     private void Update()
     {
         MoveBackGround();
-    }
-
-    public void PlayerDashPlus()
-    {
-        if(!_isPlayerTypeSpeed)
-        {
-            //default val 0.05
-            _player.GetComponentInChildren<Player>()._GetSetDashV += _dashValue;
-            _player.GetComponentInChildren<Player>().DashSliderUpdate();
-
-        }
-        else
-        {
-            _dashValue = 0.1f;
-            _player.GetComponentInChildren<Player>()._GetSetDashV += _dashValue;
-            _player.GetComponentInChildren<Player>().DashSliderUpdate();
-        }
     }
 
     public void PlayerWrongSwipe()
@@ -97,9 +77,33 @@ public class GameManager : Singleton<GameManager>
         DoGameReset();
     }
 
-    public void AwardScore()
+    public void PlayerDashPlus()
     {
+        if (!_isPlayerTypeSpeed)
+        {
+            //default val 0.05
+            _player.GetComponentInChildren<Player>()._GetSetDashV += _dashValue;
+            _player.GetComponentInChildren<Player>().DashSliderUpdate();
+
+        }
+        else
+        {
+            _dashValue = 0.1f;
+            _player.GetComponentInChildren<Player>()._GetSetDashV += _dashValue;
+            _player.GetComponentInChildren<Player>().DashSliderUpdate();
+        }
+    }
+
+    public void RewardPlayer(bool isDashing)
+    {
+        //rewards Player with score and dash
         _currScore += _scoreToAward;
+        RewardPowerUp();
+        if (!isDashing)
+        {
+            PlayerDashPlus();
+        }
+
         UIManager.Instance.ScoreUiUpdate(_currScore);
     }
 
@@ -129,6 +133,7 @@ public class GameManager : Singleton<GameManager>
     private void GameStart()
     {
         Time.timeScale = 1f;
+        SpawnManager.Instance.StartWave();
     }
 
     private void DoGameReset()
@@ -136,24 +141,7 @@ public class GameManager : Singleton<GameManager>
         _currScore = 0;
         _player.SetActive(true);
         _player.GetComponent<Player>().LifeReset();
-        DestroyAllEnemies();
         OnRestart?.Invoke();
-        Start();
+        PreGameStart();
     }
-
-    private void DestroyAllEnemies()
-    {
-        // Find all active GameObjects in the scene that have the 'Enemy' component
-        Enemy[] allEnemies = FindObjectsOfType<Enemy>();
-
-        foreach (Enemy enemy in allEnemies)
-        {
-            // Destroy the GameObject that the Enemy component is attached to
-            Destroy(enemy.gameObject);
-        }
-        Debug.Log("All enemies destroyed.");
-    }
-
-
-
 }

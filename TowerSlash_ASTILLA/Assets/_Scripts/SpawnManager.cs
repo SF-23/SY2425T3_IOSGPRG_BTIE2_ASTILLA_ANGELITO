@@ -5,35 +5,45 @@ using UnityEngine;
 public class SpawnManager : Singleton<SpawnManager>
 {
     public bool _canSpawn = true;
+    public List<GameObject> _enemyList;
     [SerializeField] private GameObject _enemyToSpawn;
-    [SerializeField] private int _spawnCount = 5;
     [SerializeField] private float _maxSpawnDelay = 5f;
     [SerializeField] private float _minSpawnDelay = 2f;
-   
 
-    // Start is called before the first frame update
-    private void Start()
+    public void StartWave()
     {
-        GameManager.Instance.OnRestart += StartWave;
         StartCoroutine(CO_StartWave());
     }
 
-    private void StartWave()
+    public void StopWave() 
     {
         StopCoroutine(CO_StartWave());
-        GameManager.Instance.OnRestart -= StartWave;
-        Start();
+    }
+
+    public void ClearEnemyList()
+    {
+        for(int i = 0;  i < _enemyList.Count; i++)
+        {
+            Destroy(_enemyList[i] );
+        }
+        _enemyList.Clear();
+    }
+
+    public void RemoveEnemy(GameObject _enemyToRemove)
+    {
+        _enemyList.Remove(_enemyToRemove);
     }
 
     private void SpawnEnemy()
     {
-        _enemyToSpawn =  Instantiate(_enemyToSpawn, this.transform.position, this.transform.rotation);
-        _enemyToSpawn.GetComponent<Enemy>().enabled = true;
+        GameObject _enemy =  Instantiate(_enemyToSpawn, this.transform.position, this.transform.rotation);
+        _enemy.GetComponent<Enemy>().enabled = true;
+        _enemyList.Add(_enemy);
     }
 
     private IEnumerator CO_StartWave()
     {
-        while (_spawnCount > 0 && _canSpawn)
+        while (_canSpawn)
         {
             SpawnEnemy();
             float _currentSpawnDelay = Random.Range(_minSpawnDelay, _maxSpawnDelay);

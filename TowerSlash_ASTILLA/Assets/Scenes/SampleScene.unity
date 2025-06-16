@@ -639,7 +639,7 @@ GameObject:
   - component: {fileID: 246228953}
   - component: {fileID: 246228954}
   m_Layer: 0
-  m_Name: ====UI=========
+  m_Name: ===UI===
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2374,8 +2374,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canSpawn: 1
+  _enemyList: []
   _enemyToSpawn: {fileID: 4986214864186104021, guid: ebe90283356d58043ab217d4b4cfef8f, type: 3}
-  _spawnCount: 5
   _maxSpawnDelay: 5
   _minSpawnDelay: 2
 --- !u!1 &1310728225
@@ -3575,6 +3575,7 @@ MonoBehaviour:
   slider_dashGuage: {fileID: 1327120287}
   _canDash: 0
   _isDashing: 0
+  _enemyList: []
 --- !u!50 &2116312216
 Rigidbody2D:
   serializedVersion: 4

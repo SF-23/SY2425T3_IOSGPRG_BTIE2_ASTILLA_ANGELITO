@@ -18,12 +18,13 @@ public class Player : MonoBehaviour
 
     public float _GetSetDashV { get { return _dashValue; } set { _dashValue = value; } }
 
+    public bool _GetDash { get { return _isDashing; } }
+
     public int _GetSetPlayerMaxLife { get { return _playerMaxLife; } set {_playerMaxLife = value; } }
 
     private void Start()
     {
         LifeReset();
-        DashSliderUpdate();
     }
 
     public void DashSliderUpdate()
@@ -38,9 +39,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void EnemyDeteced(Enemy enemy)
+    public void EnemyDeteced(Enemy _enemy)
     {
-       enemy._SetCanSwipe = true;
+        _enemy._SetCanSwipe = true;
+      
     }
 
     public void TakeDmg()
@@ -53,6 +55,8 @@ public class Player : MonoBehaviour
             _isPlayerAlive = false;
             UIManager.Instance.ToggleGameOverPanel(true);
             this.gameObject.SetActive(false);
+            SpawnManager.Instance.StopWave();
+            SpawnManager.Instance.ClearEnemyList();
         }
     }
 
@@ -64,6 +68,9 @@ public class Player : MonoBehaviour
         {
             UIManager.Instance.playerlifeUiUpdate(_playerCurrLife);
         }
+
+        _dashValue = 0;
+        DashSliderUpdate();
     }
 
     public void Button_DoDash() //For Button
@@ -77,22 +84,21 @@ public class Player : MonoBehaviour
         }
     }
 
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<Enemy>() != null)
-        {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-
-            if(_isDashing)
+        {   
+            if (_isDashing)
             {
-                enemy.DoEnemyCollidePlayer(_isDashing);
+                GameManager.Instance.RewardPlayer(true);
             }
             else
             {
                 TakeDmg();
-                enemy.DoEnemyCollidePlayer(!_isDashing);
             }
+
+            SpawnManager.Instance.RemoveEnemy(collision.gameObject);
+            Destroy(collision.gameObject);
         }
     }
 

@@ -22,8 +22,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private bool _isCorrectSwipe;
     [SerializeField] private bool _isPlayerNear;
 
-
-    public bool _SetPlayerNear { get { return _SetPlayerNear; } set { _SetPlayerNear = value; } }
+    public bool _SetPlayerNear { get { return _isPlayerNear; } set { _isPlayerNear = value; } }
 
     public bool _GetIsKilled { get { return isKilled; } }
 
@@ -44,18 +43,6 @@ public class Enemy : MonoBehaviour
         {
             CompareSwipeDirection();
         }
-    }
-
-    public void DoEnemyCollidePlayer(bool isDashing)
-    {
-
-        if (isDashing)
-        {
-            GameManager.Instance.AwardScore();
-            GameManager.Instance.RewardPowerUp();
-        }
-
-        Destroy(this.gameObject);
     }
 
     public void CompareSwipeDirection()
@@ -100,12 +87,11 @@ public class Enemy : MonoBehaviour
     private void DoSwipeDestoryEnemy()
     {
         _canSwipe = false;
-        GameManager.Instance.PlayerDashPlus();
-        GameManager.Instance.AwardScore();
-        GameManager.Instance.RewardPowerUp();
+        GameManager.Instance.RewardPlayer(false);
 
         if (!isKilled)
         {
+            SpawnManager.Instance.RemoveEnemy(this.gameObject);
             Destroy(this.gameObject);
         }
     }
