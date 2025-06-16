@@ -5,7 +5,11 @@ using UnityEngine;
 
 public enum Direction
 {
-    Up, Right, Down, Left,None
+    Up, 
+    Right, 
+    Down, 
+    Left,
+    None
 }
 
 public class SwipeDirectionManager : Singleton<SwipeDirectionManager>

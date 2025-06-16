@@ -16,24 +16,67 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _canDash = false;
     [SerializeField] private bool _isDashing = false;
 
-    public float _getSetDashV { get { return _dashValue; } set { _dashValue = value; } }
+    public float _GetSetDashV { get { return _dashValue; } set { _dashValue = value; } }
 
-    public int _getSetPlayerMaxLife { get { return _playerMaxLife; } set {_playerMaxLife = value; } }
+    public int _GetSetPlayerMaxLife { get { return _playerMaxLife; } set {_playerMaxLife = value; } }
 
     private void Start()
     {
+        LifeReset();
+        DashSliderUpdate();
+    }
+
+    public void DashSliderUpdate()
+    {
+        _dashValue = Mathf.Clamp(_dashValue, 0, 1);
+        slider_dashGuage.value = _dashValue;
+
+        if (_dashValue >= 1)
+        {
+            _canDash = true;
+            UIManager.Instance.ToggleButtonDash(true);
+        }
+    }
+
+    public void EnemyDeteced(Enemy enemy)
+    {
+       enemy._SetCanSwipe = true;
+    }
+
+    public void TakeDmg()
+    {
+        _playerCurrLife--;
+        UIManager.Instance.playerlifeUiUpdate(_playerCurrLife);
+
+        if (_playerCurrLife <= 0)
+        {
+            _isPlayerAlive = false;
+            UIManager.Instance.ToggleGameOverPanel(true);
+            this.gameObject.SetActive(false);
+        }
+    }
+
+    public void LifeReset()
+    {
         _playerCurrLife = _playerMaxLife;
+
         if (UIManager.Instance != null)
         {
             UIManager.Instance.playerlifeUiUpdate(_playerCurrLife);
         }
-        dashSliderUpdate();
     }
 
-    private void Update()
+    public void Button_DoDash() //For Button
     {
-        dashSliderUpdate();
+        if (_canDash)
+        {
+            _isDashing = true;
+            Time.timeScale = 30.0f;
+            StartCoroutine(CO_DrainDash(0.1f, 5f));
+            UIManager.Instance.ToggleButtonDash(false);
+        }
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -53,48 +96,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void TakeDmg()
-    {
-        _playerCurrLife--;
-        UIManager.Instance.playerlifeUiUpdate(_playerCurrLife);
-
-        if ( _playerCurrLife <= 0 )
-        {
-            _isPlayerAlive = false;
-            UIManager.Instance.ToggleGameOverPanel(true);
-            this.gameObject.SetActive(false);
-        }
-    }
-
-    public void Button_DoDash() //For Button
-    {
-        if(_canDash)
-        {
-            _isDashing = true;
-            Time.timeScale = 30.0f;
-            StartCoroutine(CO_DrainDash(0.1f, 80f));
-            UIManager.Instance.ToggleButtonDash(false);
-        }
-    }
-
-    private void dashSliderUpdate()
-    {
-        _dashValue = Mathf.Clamp(_dashValue, 0, 1);
-        slider_dashGuage.value = _dashValue;
-
-        if (_dashValue >= 1)
-        {
-            _canDash = true;
-            UIManager.Instance.ToggleButtonDash(true);
-        }
-    }
-
     private IEnumerator CO_DrainDash(float _dashV, float duration)
     {
         float deductionRate = _dashV / duration;
-        while (_dashValue > 0) // Continue draining as long as the value is positive
+        // Continue draining as long as the value is positive
+        while (_dashValue > 0) 
         { 
-            _dashValue -= deductionRate;
+            _dashValue -= deductionRate * Time.deltaTime;
+            DashSliderUpdate();
             yield return new WaitForSeconds(0.5f);
         }
 

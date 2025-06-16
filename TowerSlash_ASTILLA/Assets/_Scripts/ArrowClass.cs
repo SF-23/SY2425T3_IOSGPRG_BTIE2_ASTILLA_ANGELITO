@@ -4,7 +4,9 @@ using UnityEngine;
 
 public enum ArrowColor
 {
-    Red,Yellow,Green
+    Red,
+    Yellow,
+    Green
 }
 
 public class ArrowClass : MonoBehaviour
@@ -15,8 +17,6 @@ public class ArrowClass : MonoBehaviour
     [SerializeField] private GameObject _arrowBG;
     [SerializeField] private Direction _arrowDirection;
 
-    public Direction _getEnumArrowDir { get { return _arrowDirection; } }
-
     [Header("Options")]
     [SerializeField] private ArrowColor _arrowColor;
     [SerializeField] private float _interval;
@@ -24,14 +24,11 @@ public class ArrowClass : MonoBehaviour
 
     private int _currentArrow = 0;
 
-    public ArrowColor _setEnumArrowColor { get { return _setEnumArrowColor; } set { _arrowColor = value; } }
+    public Direction _GetEnumArrowDir { get { return _arrowDirection; } }
 
-    private void Start()
-    {
-        SetArrowColor();
-    }
+    public ArrowColor _SetEnumArrowColor { get { return _SetEnumArrowColor; } set { _arrowColor = value; } }
 
-    public bool _setIsPlayerNear
+    public bool _SetIsPlayerNear
     {
         get { return _isPlayerNear; }
         set
@@ -44,7 +41,13 @@ public class ArrowClass : MonoBehaviour
         }
     }
 
-    private void ArrowEnumUpdate()  //to assign a Enum according to the direction of arrow after it stops rotating
+    private void Start()
+    {
+        SetArrowColor();
+    }
+
+    //to assign a Enum according to the direction of arrow after it stops rotating
+    private void ArrowEnumUpdate()  
     {
         switch (_currentArrow)
         {
@@ -71,6 +74,11 @@ public class ArrowClass : MonoBehaviour
         _currentArrow = Random.Range(0, 3);
         _arrowSR.sprite = _arrowSprites[_currentArrow];
         ArrowEnumUpdate();
+    }
+
+    private void RedArrowFlip()
+    {
+        
     }
 
     private void SetArrowColor()

@@ -943,6 +943,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4845278543913785329, guid: ebe90283356d58043ab217d4b4cfef8f, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4845278543913785329, guid: ebe90283356d58043ab217d4b4cfef8f, type: 3}
+      propertyPath: m_FlipY
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4986214864186104021, guid: ebe90283356d58043ab217d4b4cfef8f, type: 3}
       propertyPath: m_Name
       value: Enemy (1)
@@ -1917,6 +1925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aff17d2e11543c4b9127851e8f8bf33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 2116312215}
 --- !u!61 &1153756930
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2364,7 +2373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01553516b7dd23248a09917ba705acc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyList: []
+  _canSpawn: 1
   _enemyToSpawn: {fileID: 4986214864186104021, guid: ebe90283356d58043ab217d4b4cfef8f, type: 3}
   _spawnCount: 5
   _maxSpawnDelay: 5

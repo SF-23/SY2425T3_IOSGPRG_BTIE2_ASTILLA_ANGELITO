@@ -4,7 +4,9 @@ using UnityEngine;
 
 public enum EnemyType
 {
-    Normal, Opp, Random
+    Normal, 
+    Opp, 
+    Random
 }
 
 public class Enemy : MonoBehaviour
@@ -21,11 +23,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private bool _isPlayerNear;
 
 
-    public bool _setPlayerNear { get { return _setPlayerNear; } set { _setPlayerNear = value; } }
+    public bool _SetPlayerNear { get { return _SetPlayerNear; } set { _SetPlayerNear = value; } }
 
-    public bool _getIsKilled { get { return isKilled; } }
+    public bool _GetIsKilled { get { return isKilled; } }
 
-    public bool _setCanSwipe { get { return _canSwipe; } set { _canSwipe = value; } }
+    public bool _SetCanSwipe { get { return _canSwipe; } set { _canSwipe = value; } }
 
     private void Start()
     {
@@ -46,7 +48,6 @@ public class Enemy : MonoBehaviour
 
     public void DoEnemyCollidePlayer(bool isDashing)
     {
-        SpawnManager.Instance.DeListEnemy(this.gameObject);
 
         if (isDashing)
         {
@@ -64,10 +65,10 @@ public class Enemy : MonoBehaviour
         if (_enemyType == EnemyType.Opp)    //red means opposite swipe
         {
             if (
-               (_arrow._getEnumArrowDir == Direction.Right && sDM.enum_currentDir == Direction.Left) ||
-               (_arrow._getEnumArrowDir == Direction.Left && sDM.enum_currentDir == Direction.Right) ||
-               (_arrow._getEnumArrowDir == Direction.Up && sDM.enum_currentDir == Direction.Down) ||
-               (_arrow._getEnumArrowDir == Direction.Down && sDM.enum_currentDir == Direction.Up)
+               (_arrow._GetEnumArrowDir == Direction.Right && sDM.enum_currentDir == Direction.Left) ||
+               (_arrow._GetEnumArrowDir == Direction.Left && sDM.enum_currentDir == Direction.Right) ||
+               (_arrow._GetEnumArrowDir == Direction.Up && sDM.enum_currentDir == Direction.Down) ||
+               (_arrow._GetEnumArrowDir == Direction.Down && sDM.enum_currentDir == Direction.Up)
               )
             {
                 _isCorrectSwipe = true;
@@ -75,7 +76,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            if (_arrow._getEnumArrowDir == sDM.enum_currentDir)
+            if (_arrow._GetEnumArrowDir == sDM.enum_currentDir)
             {
                 _isCorrectSwipe = true;
             }
@@ -98,8 +99,6 @@ public class Enemy : MonoBehaviour
 
     private void DoSwipeDestoryEnemy()
     {
-
-        SpawnManager.Instance.DeListEnemy(this.gameObject);
         _canSwipe = false;
         GameManager.Instance.PlayerDashPlus();
         GameManager.Instance.AwardScore();
@@ -116,13 +115,13 @@ public class Enemy : MonoBehaviour
         switch (_enemyType)
         {
             case EnemyType.Normal:
-                _arrow._setEnumArrowColor = ArrowColor.Green;
+                _arrow._SetEnumArrowColor = ArrowColor.Green;
                 break;
             case EnemyType.Opp:
-                _arrow._setEnumArrowColor = ArrowColor.Red;
+                _arrow._SetEnumArrowColor = ArrowColor.Red;
                 break;
             case EnemyType.Random:
-                _arrow._setEnumArrowColor = ArrowColor.Yellow;
+                _arrow._SetEnumArrowColor = ArrowColor.Yellow;
                 break;
             default:
                 return;

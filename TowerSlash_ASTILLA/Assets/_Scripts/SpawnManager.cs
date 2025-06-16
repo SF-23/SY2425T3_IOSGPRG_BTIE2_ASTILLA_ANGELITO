@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class SpawnManager : Singleton<SpawnManager>
 {
-    public List<GameObject> _enemyList;
+    public bool _canSpawn = true;
     [SerializeField] private GameObject _enemyToSpawn;
     [SerializeField] private int _spawnCount = 5;
     [SerializeField] private float _maxSpawnDelay = 5f;
     [SerializeField] private float _minSpawnDelay = 2f;
+   
 
     // Start is called before the first frame update
     private void Start()
@@ -17,25 +18,10 @@ public class SpawnManager : Singleton<SpawnManager>
         StartCoroutine(CO_StartWave());
     }
 
-    public void DeListEnemy(GameObject enemy)
-    {
-        _enemyList.Remove(enemy);
-    }
-
-    public void ResetSpawner()
-    {
-        foreach (GameObject enemy in _enemyList)
-        {
-            Destroy(enemy);
-        }
-        _enemyList.Clear();
-
-    }
-
     private void StartWave()
     {
-        GameManager.Instance.OnRestart -= StartWave;
         StopCoroutine(CO_StartWave());
+        GameManager.Instance.OnRestart -= StartWave;
         Start();
     }
 
@@ -43,12 +29,11 @@ public class SpawnManager : Singleton<SpawnManager>
     {
         _enemyToSpawn =  Instantiate(_enemyToSpawn, this.transform.position, this.transform.rotation);
         _enemyToSpawn.GetComponent<Enemy>().enabled = true;
-        _enemyList.Add(_enemyToSpawn);
     }
 
     private IEnumerator CO_StartWave()
     {
-        while (_spawnCount > 0)
+        while (_spawnCount > 0 && _canSpawn)
         {
             SpawnEnemy();
             float _currentSpawnDelay = Random.Range(_minSpawnDelay, _maxSpawnDelay);

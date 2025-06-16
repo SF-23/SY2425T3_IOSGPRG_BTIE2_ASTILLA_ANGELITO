@@ -10,7 +10,7 @@ public class GameManager : Singleton<GameManager>
     [Header("Background Stuff")]
     [SerializeField] private GameObject backGround;
     [SerializeField] private float _bgSpeed = 0.1f;
-    private Vector2 _bgOffset;
+   
 
     [Header("Player Variables")]
     [SerializeField] private GameObject _player;
@@ -19,7 +19,11 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private int _scoreToAward = 10;
     [SerializeField] private int _currScore;
     [SerializeField] private int _extraLife = 1;
-    [SerializeField] private float _randomChance = 3f; //random Chance for PowerUp to spawn
+
+    //random Chance for PowerUp to spawn
+    [SerializeField] private float _randomChance = 3f; 
+
+    private Vector2 _bgOffset;
 
     public System.Action OnRestart{ get; set; }
 
@@ -29,7 +33,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         MoveBackGround();
     }
@@ -38,26 +42,31 @@ public class GameManager : Singleton<GameManager>
     {
         if(!_isPlayerTypeSpeed)
         {
-            _player.GetComponentInChildren<Player>()._getSetDashV += _dashValue; //default val 0.05
+            //default val 0.05
+            _player.GetComponentInChildren<Player>()._GetSetDashV += _dashValue;
+            _player.GetComponentInChildren<Player>().DashSliderUpdate();
 
         }
         else
         {
             _dashValue = 0.1f;
-            _player.GetComponentInChildren<Player>()._getSetDashV += _dashValue;
+            _player.GetComponentInChildren<Player>()._GetSetDashV += _dashValue;
+            _player.GetComponentInChildren<Player>().DashSliderUpdate();
         }
-       
     }
 
     public void PlayerWrongSwipe()
     {
         if (_player != null)
+        {
             _player.GetComponentInChildren<Player>().TakeDmg();
+        }
     }
 
     public void Button_Default()
     {
         _player.SetActive(true);
+        _player.GetComponentInChildren<Player>()._GetSetPlayerMaxLife = 3;
         _player.GetComponentInChildren<SpriteRenderer>().material.color = Color.gray;
         UIManager.Instance.TogglePanelPlayerSelect(false);
         GameStart();
@@ -66,7 +75,7 @@ public class GameManager : Singleton<GameManager>
     public void Button_Tank()
     {
         _player.SetActive(true);
-        _player.GetComponentInChildren<Player>()._getSetPlayerMaxLife = 5;
+        _player.GetComponentInChildren<Player>()._GetSetPlayerMaxLife = 5;
         _player.GetComponentInChildren<SpriteRenderer>().material.color = Color.black;
         UIManager.Instance.TogglePanelPlayerSelect(false);
         GameStart();
@@ -76,6 +85,7 @@ public class GameManager : Singleton<GameManager>
     {
         _player.SetActive(true);
         _isPlayerTypeSpeed = true;
+        _player.GetComponentInChildren<Player>()._GetSetPlayerMaxLife = 3;
         _player.GetComponentInChildren<SpriteRenderer>().material.color = Color.yellow;
         UIManager.Instance.TogglePanelPlayerSelect(false);
         GameStart();
@@ -99,7 +109,7 @@ public class GameManager : Singleton<GameManager>
 
         if(randomValue <= _randomChance)
         {
-            _player.GetComponentInChildren<Player>()._getSetPlayerMaxLife += _extraLife;
+            _player.GetComponentInChildren<Player>()._GetSetPlayerMaxLife += _extraLife;
         }
     }
 
@@ -123,14 +133,27 @@ public class GameManager : Singleton<GameManager>
 
     private void DoGameReset()
     {
-        SpawnManager.Instance.ResetSpawner();
         _currScore = 0;
         _player.SetActive(true);
+        _player.GetComponent<Player>().LifeReset();
+        DestroyAllEnemies();
         OnRestart?.Invoke();
         Start();
     }
 
- 
+    private void DestroyAllEnemies()
+    {
+        // Find all active GameObjects in the scene that have the 'Enemy' component
+        Enemy[] allEnemies = FindObjectsOfType<Enemy>();
+
+        foreach (Enemy enemy in allEnemies)
+        {
+            // Destroy the GameObject that the Enemy component is attached to
+            Destroy(enemy.gameObject);
+        }
+        Debug.Log("All enemies destroyed.");
+    }
+
 
 
 }
