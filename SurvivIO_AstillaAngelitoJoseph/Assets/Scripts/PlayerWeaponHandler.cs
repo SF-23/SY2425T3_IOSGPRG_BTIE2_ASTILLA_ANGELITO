@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerWeaponHandler : MonoBehaviour
 {
+    [Header("Weapons In Hand")]
+    [SerializeField] private GameObject[] _weaponInHand;
+
     [Header("Rifle Ammo")]
     [SerializeField] private int _currRifleAmmoCount;
     [SerializeField] private int _maxRifleAmmoCount;
@@ -23,15 +26,15 @@ public class PlayerWeaponHandler : MonoBehaviour
 
             switch(ammo._ammoType)
             {
-                case AmmoType.pistol:
+                case AmmoType.pistolAmmo:
                     _currPistolAmmoCount++;
                     UiManager.Instance.PistolAmmoUpdate(_currPistolAmmoCount);
                     break;
-                case AmmoType.shotty:
+                case AmmoType.shottyAmmo:
                     _currShottyAmmoCount++;
                     UiManager.Instance.ShottyAmmoUpdate(_currShottyAmmoCount);
                     break;
-                case AmmoType.rifle:
+                case AmmoType.rifleAmmo:
                     _currRifleAmmoCount++;
                     UiManager.Instance.RifleAmmoUpdate(_currRifleAmmoCount);
                     break;
