@@ -1977,7 +1977,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 471708185}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1087910239}
+        m_TargetAssemblyTypeName: PlayerWeaponHandler, Assembly-CSharp
+        m_MethodName: CallCurrentWeaponFire
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &471708185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4716,12 +4728,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponInHand: []
+  currentEquippedWeapon: {fileID: 1563781816}
   _currRifleAmmoCount: 0
   _maxRifleAmmoCount: 0
   _currShottyAmmoCount: 0
   _maxShottyAmmoCount: 0
   _currPistolAmmoCount: 0
   _maxPistolAmmoCount: 0
+  OnShootButtonPressed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1133021866
 GameObject:
   m_ObjectHideFlags: 0
@@ -6081,6 +6097,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1563781815}
   - component: {fileID: 1563781814}
+  - component: {fileID: 1563781816}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -6156,6 +6173,32 @@ Transform:
   - {fileID: 665416317}
   m_Father: {fileID: 1087910234}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1563781816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563781813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3deaa783af0738147bab513bde21d6b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bulletPrefab: {fileID: 540105941407016865, guid: 27d7627d452e1a74e828c15b6051e7e9, type: 3}
+  _barrel: {fileID: 665416317}
+  _isFiring: 0
+  _isReloading: 0
+  _isWeaponPickedUp: 0
+  _weaponStats:
+    _weaponType: 0
+    _ammoType: 0
+    _fireRate: 2.16
+    _reloadTime: 2
+    _weaponRange: 2
+    _maxAmmo: 10
+    _currentAmmo: 0
+    _bulletDamage: 10
 --- !u!1001 &1639390018
 PrefabInstance:
   m_ObjectHideFlags: 0

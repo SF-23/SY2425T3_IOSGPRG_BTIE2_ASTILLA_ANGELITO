@@ -14,7 +14,6 @@ public struct WeaponStats
     public int _bulletDamage; 
 }
 
-
 public abstract class Weapon : MonoBehaviour
 {
     public GameObject _bulletPrefab;
@@ -34,13 +33,23 @@ public abstract class Weapon : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Mouse0) && _isFiring && _isWeaponPickedUp) //&& !GameManager.instance.isGamePause)
         {
             StartCoroutine(CO_FiringWeapon());
         }
+        */
     }
 
     public abstract void FireWeapon();
+
+    public void Button_FireWeapon()
+    {
+        if (_isFiring && _isWeaponPickedUp) //&& !GameManager.instance.isGamePause)
+        {
+            StartCoroutine(CO_FiringWeapon());
+        }
+    }
 
     private IEnumerator CO_FiringWeapon()
     {

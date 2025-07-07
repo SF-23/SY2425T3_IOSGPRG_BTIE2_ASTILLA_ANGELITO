@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerWeaponHandler : MonoBehaviour
 {
     [Header("Weapons In Hand")]
     [SerializeField] private GameObject[] _weaponInHand;
+    [SerializeField] private Weapon currentEquippedWeapon;
 
     [Header("Rifle Ammo")]
     [SerializeField] private int _currRifleAmmoCount;
@@ -16,6 +18,28 @@ public class PlayerWeaponHandler : MonoBehaviour
     [Header("Pistol Ammo")]
     [SerializeField] private int _currPistolAmmoCount;
     [SerializeField] private int _maxPistolAmmoCount;
+
+    public UnityEvent OnShootButtonPressed;
+
+    private void Awake()
+    {
+        if (OnShootButtonPressed == null)
+            OnShootButtonPressed = new UnityEvent();
+
+        OnShootButtonPressed.AddListener(CallCurrentWeaponFire);
+    }
+
+    public void CallCurrentWeaponFire()
+    {
+        if (currentEquippedWeapon != null)
+        {
+            currentEquippedWeapon.Button_FireWeapon(); // Call the Button_FireWeapon from the base Weapon class
+        }
+        else
+        {
+            Debug.LogWarning("No weapon equipped to fire!");
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
