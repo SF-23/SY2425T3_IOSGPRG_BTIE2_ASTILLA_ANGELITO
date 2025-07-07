@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Shotty : Weapon
 {
-    public override void FireWeapon()
+    public override void Shoot()
     {
         SpawnBullet();
     }

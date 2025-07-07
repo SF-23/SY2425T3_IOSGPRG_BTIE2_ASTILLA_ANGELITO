@@ -41,20 +41,12 @@ public abstract class Weapon : MonoBehaviour
         */
     }
 
-    public abstract void FireWeapon();
-
-    public void Button_FireWeapon()
-    {
-        if (_isFiring && _isWeaponPickedUp) //&& !GameManager.instance.isGamePause)
-        {
-            StartCoroutine(CO_FiringWeapon());
-        }
-    }
+    public abstract void Shoot();
 
     private IEnumerator CO_FiringWeapon()
     {
         _isFiring = false;
-        FireWeapon();
+        Shoot();
         StartCoroutine(CO_FireRateHandler());
         yield return null;
     }

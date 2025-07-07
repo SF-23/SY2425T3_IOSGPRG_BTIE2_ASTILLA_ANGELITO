@@ -19,21 +19,11 @@ public class PlayerWeaponHandler : MonoBehaviour
     [SerializeField] private int _currPistolAmmoCount;
     [SerializeField] private int _maxPistolAmmoCount;
 
-    public UnityEvent OnShootButtonPressed;
-
-    private void Awake()
-    {
-        if (OnShootButtonPressed == null)
-            OnShootButtonPressed = new UnityEvent();
-
-        OnShootButtonPressed.AddListener(CallCurrentWeaponFire);
-    }
-
     public void CallCurrentWeaponFire()
     {
         if (currentEquippedWeapon != null)
         {
-            currentEquippedWeapon.Button_FireWeapon(); // Call the Button_FireWeapon from the base Weapon class
+            currentEquippedWeapon.Shoot();
         }
         else
         {

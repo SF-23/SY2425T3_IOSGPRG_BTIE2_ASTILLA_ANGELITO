@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Rifle : Weapon
 {
-    public override void FireWeapon()
+    public override void Shoot()
     {
         SpawnBullet();
     }

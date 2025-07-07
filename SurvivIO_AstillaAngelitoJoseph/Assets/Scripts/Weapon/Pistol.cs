@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Pistol : Weapon
 {
-    public override void FireWeapon()
+    public override void Shoot()
     {
         SpawnBullet();
         _weaponStats._currentAmmo--;
