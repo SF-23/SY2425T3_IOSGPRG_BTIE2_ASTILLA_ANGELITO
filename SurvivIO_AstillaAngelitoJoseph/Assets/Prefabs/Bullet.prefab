@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletDmg: 0
-  _bulletSpeed: 10
+  _bulletSpeed: 15
   _bulletRange: 0
 --- !u!61 &1564833763849846642
 BoxCollider2D:

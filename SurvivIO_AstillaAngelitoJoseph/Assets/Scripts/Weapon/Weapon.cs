@@ -5,7 +5,7 @@ using UnityEngine;
 public struct WeaponStats
 {
     public WeaponType _weaponType;
-    public AmmoType _ammoType;
+    public LootType _ammoType;
     public float _fireRate;
     public float _reloadTime;
     public float _weaponRange;

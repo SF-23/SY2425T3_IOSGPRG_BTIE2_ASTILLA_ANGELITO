@@ -17,4 +17,9 @@ public class GameManager : Singleton<GameManager>
     {
         
     }
+
+    public void Button_PlayerShoot()
+    {
+        _player.GetComponent<PlayerWeaponHandler>().CurrentWeaponFire();
+    }
 }

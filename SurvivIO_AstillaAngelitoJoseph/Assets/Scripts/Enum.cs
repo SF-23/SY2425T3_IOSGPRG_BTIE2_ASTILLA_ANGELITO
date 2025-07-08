@@ -1,8 +1,11 @@
-public enum AmmoType
+public enum LootType
 {
     pistolAmmo,
     rifleAmmo,
-    shottyAmmo
+    shottyAmmo,
+    lootPistol,
+    lootRifle,
+    lootShotty,
 }
 
 public enum WeaponType

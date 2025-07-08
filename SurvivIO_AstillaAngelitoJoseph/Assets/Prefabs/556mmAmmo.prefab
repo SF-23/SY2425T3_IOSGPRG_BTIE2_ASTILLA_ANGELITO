@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 126981990961471435}
   - component: {fileID: 2038288216908876659}
   - component: {fileID: 7415103558825179510}
-  - component: {fileID: 846190124303838008}
+  - component: {fileID: 3719978978246427256}
   m_Layer: 0
   m_Name: 556mmAmmo
   m_TagString: Untagged
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8596071941358241823}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.0345368, y: 9.922121, z: 11.271778}
   m_LocalScale: {x: 0.3, y: 0.31057, z: 0.31057}
   m_ConstrainProportionsScale: 0
@@ -131,7 +131,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6.83, y: 6.83}
   m_EdgeRadius: 0
---- !u!114 &846190124303838008
+--- !u!114 &3719978978246427256
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8596071941358241823}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e64360c7526f85418c0c32443ab08fd, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ca9226dcbfef244d83d9c50e509fa13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ammoType: 1
+  _lootType: 0
