@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6716696835274208773}
   - component: {fileID: 9192766653929529257}
   - component: {fileID: 4259014040705322404}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 12gaugeAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -143,4 +143,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ca9226dcbfef244d83d9c50e509fa13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lootType: 0
+  _lootType: 2

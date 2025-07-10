@@ -10,6 +10,7 @@ public class PlayerWeaponHandler : MonoBehaviour
     //pistol, rifle, shotty (0,1,2)
     [SerializeField] private GameObject[] _weaponInHand; 
     [SerializeField] private Weapon _currentEquippedWeapon;
+    [SerializeField] private Weapon _primaryWeapon;
     [SerializeField] private Weapon _secondaryWeapon;
 
     [Header("Rifle Ammo")]
