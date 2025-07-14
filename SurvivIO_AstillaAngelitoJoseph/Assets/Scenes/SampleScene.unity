@@ -6277,7 +6277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1563781814
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8585,6 +8585,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1214901663}
     m_Modifications:
+    - target: {fileID: 2068103827491367839, guid: 517c2b2719dad8f41b39c7581f959c57, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2105778610545831413, guid: 517c2b2719dad8f41b39c7581f959c57, type: 3}
       propertyPath: m_Name
       value: LootPistol
@@ -8596,6 +8600,14 @@ PrefabInstance:
     - target: {fileID: 3311813788726198624, guid: 517c2b2719dad8f41b39c7581f959c57, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882205534997710208, guid: 517c2b2719dad8f41b39c7581f959c57, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701920411599725391, guid: 517c2b2719dad8f41b39c7581f959c57, type: 3}
+      propertyPath: _lootType
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7689681262253851300, guid: 517c2b2719dad8f41b39c7581f959c57, type: 3}
       propertyPath: m_IsTrigger
@@ -9003,6 +9015,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2132711091584144716, guid: ed2524004313e30409d0a89589e5ed9e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2832582855767766179, guid: ed2524004313e30409d0a89589e5ed9e, type: 3}
       propertyPath: m_Name
       value: LootRifle
@@ -9014,6 +9030,10 @@ PrefabInstance:
     - target: {fileID: 3686133945693577835, guid: ed2524004313e30409d0a89589e5ed9e, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4799076335579398506, guid: ed2524004313e30409d0a89589e5ed9e, type: 3}
+      propertyPath: _lootType
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5745052610353694619, guid: ed2524004313e30409d0a89589e5ed9e, type: 3}
       propertyPath: m_IsTrigger
@@ -9093,6 +9113,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1214901663}
     m_Modifications:
+    - target: {fileID: 1122958071502833508, guid: 61051e0358c604c48b5456dede5d58f8, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1440898607248577050, guid: 61051e0358c604c48b5456dede5d58f8, type: 3}
+      propertyPath: _lootType
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3105453469703222549, guid: 61051e0358c604c48b5456dede5d58f8, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -9108,6 +9136,10 @@ PrefabInstance:
     - target: {fileID: 5176427302417160774, guid: 61051e0358c604c48b5456dede5d58f8, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5923535659768686374, guid: 61051e0358c604c48b5456dede5d58f8, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6164715145998053596, guid: 61051e0358c604c48b5456dede5d58f8, type: 3}
       propertyPath: m_LocalPosition.x

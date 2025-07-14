@@ -26,7 +26,7 @@ public class PlayerWeaponHandler : MonoBehaviour
     private void Start()
     {
         //to set pistol as the main gun
-        _currentEquippedWeapon = _secondaryWeapon;
+        //_currentEquippedWeapon = _secondaryWeapon;
     }
 
     public void CurrentWeaponFire()
@@ -80,6 +80,8 @@ public class PlayerWeaponHandler : MonoBehaviour
             Destroy(_lootItem.gameObject);
         } 
     }
+
+
 
     private void SetCurrentWeapon(GameObject weapon)
     {
