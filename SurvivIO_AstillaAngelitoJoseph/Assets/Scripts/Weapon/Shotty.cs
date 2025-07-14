@@ -7,18 +7,20 @@ public class Shotty : Weapon
 {
     public override void Shoot()
     {
-        SpawnBullet();
         _weaponStats._currentAmmo--;
+        for (int i = 0; i < 8; i++) 
+        {
+            SpawnBullet();
+        }
         //insert sound
         Mathf.Clamp(_weaponStats._currentAmmo, 0, _weaponStats._maxAmmo);
     }
 
     private void SpawnBullet()
     {
-        float offsetX = Random.Range(-0.1f, 0.1f);
-        float offsetY = Random.Range(-0.3f, 0.3f);
+        float offsetZ = Random.Range(-5f, 5f);
 
-        Quaternion randomBarrelRotation = Quaternion.Euler(0f, offsetY, offsetX);
+        Quaternion randomBarrelRotation = Quaternion.Euler(0, 0, offsetZ);
         Quaternion finalBarrelRotation = _barrel.rotation * randomBarrelRotation;
 
         GameObject bullet = Instantiate(_bulletPrefab, transform.position, finalBarrelRotation);

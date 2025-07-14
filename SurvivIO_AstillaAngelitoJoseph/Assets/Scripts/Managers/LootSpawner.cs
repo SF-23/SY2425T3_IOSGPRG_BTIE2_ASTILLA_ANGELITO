@@ -53,14 +53,14 @@ public class LootSpawner : MonoBehaviour
             if (true)
             {
                 GameObject itemToInstantiate = null;
-                float spawnRoll = Random.Range(0f, 100f);
+                float spawnRoll = Random.Range(0f, 1f);
 
                 if (spawnRoll <= _weaponLootChance && _weaponLoot.Length > 0)
                 {
                     // Spawn a random weapon from the array
                     itemToInstantiate = _weaponLoot[Random.Range(0, _weaponLoot.Length)];
                 }
-                else if (_ammoLoot.Length > 0) // If not a weapon (or no weapons to spawn), try for ammo
+                else if (_ammoLoot.Length > 0) 
                 {
                     // Spawn a random ammo type from the array
                     itemToInstantiate = _ammoLoot[Random.Range(0, _ammoLoot.Length)];
@@ -71,10 +71,6 @@ public class LootSpawner : MonoBehaviour
                     GameObject spawnedItem = Instantiate(itemToInstantiate, randomSpawnPosition, Quaternion.identity);
                     //_spawnedLoot.Add(spawnedItem);
                 }
-            }
-            else
-            {
-                //Debug.LogWarning($"SpawnManager: Failed to find a non-overlapping position for loot item {i + 1} after {_maxSpawnAttempts} attempts.");
             }
         }
     }

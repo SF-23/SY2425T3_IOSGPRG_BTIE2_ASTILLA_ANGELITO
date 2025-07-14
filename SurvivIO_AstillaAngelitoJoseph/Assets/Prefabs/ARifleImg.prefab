@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1998516825887119072}
   - component: {fileID: 2174888564483153010}
   m_Layer: 5
-  m_Name: FamasImg
+  m_Name: ARifleImg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

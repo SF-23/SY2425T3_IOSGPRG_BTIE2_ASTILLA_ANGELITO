@@ -23,12 +23,6 @@ public class PlayerWeaponHandler : MonoBehaviour
     [SerializeField] private int _currPistolAmmoCount;
     [SerializeField] private int _maxPistolAmmoCount;
 
-    private void Start()
-    {
-        //to set pistol as the main gun
-        //_currentEquippedWeapon = _secondaryWeapon;
-    }
-
     public void CurrentWeaponFire()
     {
         if (_currentEquippedWeapon != null)
@@ -38,6 +32,26 @@ public class PlayerWeaponHandler : MonoBehaviour
         else
         {
             Debug.LogWarning("No weapon equipped to fire!");
+        }
+    }
+
+    // Call this method from your UI button for primary weapon
+    public void EquipPrimaryWeapon()
+    {
+        if (_primaryWeapon != null)
+        {
+            _currentEquippedWeapon = _primaryWeapon;
+            UpdateWeaponVisuals();
+        }
+    }
+
+    // Call this method from your UI button for secondary weapon
+    public void EquipSecondaryWeapon()
+    {
+        if (_secondaryWeapon != null)
+        {
+            _currentEquippedWeapon = _secondaryWeapon;
+            UpdateWeaponVisuals();
         }
     }
 
@@ -64,15 +78,15 @@ public class PlayerWeaponHandler : MonoBehaviour
                     break;
                 case LootType.lootPistol:
                     _weaponInHand[0].SetActive(true);
-                    SetCurrentWeapon(_weaponInHand[0]);
+                    HandleWeaponPickup(_weaponInHand[0].GetComponent<Weapon>(), LootType.lootPistol);
                     break;
                 case LootType.lootRifle:
                     _weaponInHand[1].SetActive(true);
-                    SetCurrentWeapon(_weaponInHand[1]);
+                    HandleWeaponPickup(_weaponInHand[1].GetComponent<Weapon>(), LootType.lootPistol);
                     break;
                 case LootType.lootShotty:
                     _weaponInHand[2].SetActive(true);
-                    SetCurrentWeapon(_weaponInHand[2]);
+                    HandleWeaponPickup(_weaponInHand[2].GetComponent<Weapon>(), LootType.lootPistol);
                     break;
                 default:
                     break;
@@ -81,17 +95,54 @@ public class PlayerWeaponHandler : MonoBehaviour
         } 
     }
 
-
-
-    private void SetCurrentWeapon(GameObject weapon)
+    private void HandleWeaponPickup(Weapon newWeapon, LootType weaponLootType)
     {
-        if(_currentEquippedWeapon == null)
+        // Deactivate all weapon visuals initially
+        foreach (GameObject weaponGO in _weaponInHand)
         {
-            _currentEquippedWeapon = weapon.GetComponent<Weapon>();
+            weaponGO.SetActive(false);
         }
-        else if(_secondaryWeapon == null && _currentEquippedWeapon != null)
+
+        if (weaponLootType == LootType.lootPistol)
         {
-            _secondaryWeapon = _currentEquippedWeapon;
+            // This is a pistol, always goes into the secondary slot
+            if (_secondaryWeapon != null)
+            {
+                // Discard the old pistol, deduct whatever ammo here
+                Debug.Log("Discarded old secondary weapon: " + _secondaryWeapon.name);
+                // No need to explicitly destroy the GameObject as it's from _weaponInHand array
+                // and we'll just re-assign the reference. The visual will be handled by UpdateWeaponVisuals.
+            }
+            _secondaryWeapon = newWeapon;
+        }
+        else // It's an Automatic Rifle or Shotgun (primary weapon types)
+        {
+            if (_primaryWeapon != null)
+            {
+                // Discard the old primary weapon, deduct whatever ammo here
+                Debug.Log("Discarded old primary weapon: " + _primaryWeapon.name);
+            }
+            _primaryWeapon = newWeapon;
+        }
+
+        // After handling the slot, equip the newly picked up weapon
+        _currentEquippedWeapon = newWeapon;
+        UpdateWeaponVisuals();
+        Debug.Log("Picked up and equipped: " + newWeapon.name);
+    }
+
+    private void UpdateWeaponVisuals()
+    {
+        // Deactivate all weapon game objects first
+        foreach (GameObject weaponGO in _weaponInHand)
+        {
+            weaponGO.SetActive(false);
+        }
+
+        // Activate the game object of the currently equipped weapon
+        if (_currentEquippedWeapon != null)
+        {
+            _currentEquippedWeapon.gameObject.SetActive(true);
         }
     }
 }

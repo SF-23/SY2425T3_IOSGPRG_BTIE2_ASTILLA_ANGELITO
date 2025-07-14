@@ -22,4 +22,14 @@ public class GameManager : Singleton<GameManager>
     {
         _player.GetComponent<PlayerWeaponHandler>().CurrentWeaponFire();
     }
+
+    public void Button_EquipPrimary()
+    {
+        _player.GetComponent<PlayerWeaponHandler>().EquipPrimaryWeapon();
+    }
+
+    public void Button_EquipSecondary()
+    {
+        _player.GetComponent<PlayerWeaponHandler>().EquipSecondaryWeapon();
+    }
 }
