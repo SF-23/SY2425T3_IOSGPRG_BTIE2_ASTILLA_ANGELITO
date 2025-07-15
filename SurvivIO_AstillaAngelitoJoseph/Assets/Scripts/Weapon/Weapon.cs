@@ -43,11 +43,20 @@ public abstract class Weapon : MonoBehaviour
 
     public abstract void Shoot();
 
-    private IEnumerator CO_FiringWeapon()
+    public IEnumerator CO_FiringWeapon()
     {
         _isFiring = false;
-        Shoot();
-        StartCoroutine(CO_FireRateHandler());
+        
+        if(_weaponStats._currentAmmo <= 0)
+        {
+            StartCoroutine(CO_ReloadTimer());  
+        }
+        else
+        {
+            Shoot();
+            StartCoroutine(CO_FireRateHandler());
+        }
+
         yield return null;
     }
 

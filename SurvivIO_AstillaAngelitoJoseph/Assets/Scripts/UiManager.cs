@@ -9,8 +9,7 @@ public class UiManager : Singleton<UiManager>
     [SerializeField] private TextMeshProUGUI _pistolAmmoTxt;
     [SerializeField] private TextMeshProUGUI _rifleAmmoTxt;
     [SerializeField] private TextMeshProUGUI _shottyAmmoTxt;
-    [SerializeField] private Transform[] _weaponUISpawn;
-    [SerializeField] private Image[] _weaponImg;
+    [SerializeField] private GameObject[] _weaponImg;
 
     public void PistolAmmoUpdate(int pistolAmmo)
     {
@@ -25,5 +24,10 @@ public class UiManager : Singleton<UiManager>
     public void ShottyAmmoUpdate(int shottyAmmo)
     {
         _shottyAmmoTxt.text = shottyAmmo.ToString();
+    }
+
+    public void ImageWeaponUpdate(int index, bool isActive)
+    {
+        _weaponImg[index].gameObject.SetActive(isActive);
     }
 }

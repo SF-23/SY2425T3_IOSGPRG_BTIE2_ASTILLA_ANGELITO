@@ -9,7 +9,7 @@ public class PlayerWeaponHandler : MonoBehaviour
     [Header("Weapons In Hand")]
     //pistol, rifle, shotty (0,1,2)
     [SerializeField] private GameObject[] _weaponInHand; 
-    [SerializeField] private Weapon _currentEquippedWeapon;
+    [SerializeField] public Weapon _currentEquippedWeapon;
     [SerializeField] private Weapon _primaryWeapon;
     [SerializeField] private Weapon _secondaryWeapon;
 
@@ -27,7 +27,7 @@ public class PlayerWeaponHandler : MonoBehaviour
     {
         if (_currentEquippedWeapon != null)
         {
-            _currentEquippedWeapon.Shoot();
+            StartCoroutine(_currentEquippedWeapon.CO_FiringWeapon());
         }
         else
         {
@@ -82,11 +82,11 @@ public class PlayerWeaponHandler : MonoBehaviour
                     break;
                 case LootType.lootRifle:
                     _weaponInHand[1].SetActive(true);
-                    HandleWeaponPickup(_weaponInHand[1].GetComponent<Weapon>(), LootType.lootPistol);
+                    HandleWeaponPickup(_weaponInHand[1].GetComponent<Weapon>(), LootType.lootRifle);
                     break;
                 case LootType.lootShotty:
                     _weaponInHand[2].SetActive(true);
-                    HandleWeaponPickup(_weaponInHand[2].GetComponent<Weapon>(), LootType.lootPistol);
+                    HandleWeaponPickup(_weaponInHand[2].GetComponent<Weapon>(), LootType.lootShotty);
                     break;
                 default:
                     break;
@@ -105,18 +105,30 @@ public class PlayerWeaponHandler : MonoBehaviour
 
         if (weaponLootType == LootType.lootPistol)
         {
-            // This is a pistol, always goes into the secondary slot
+            UiManager.Instance.ImageWeaponUpdate(0, true);
             if (_secondaryWeapon != null)
             {
                 // Discard the old pistol, deduct whatever ammo here
                 Debug.Log("Discarded old secondary weapon: " + _secondaryWeapon.name);
-                // No need to explicitly destroy the GameObject as it's from _weaponInHand array
                 // and we'll just re-assign the reference. The visual will be handled by UpdateWeaponVisuals.
             }
             _secondaryWeapon = newWeapon;
+            
         }
-        else // It's an Automatic Rifle or Shotgun (primary weapon types)
+        // It's an Automatic Rifle or Shotgun (primary weapon types)
+        else if (weaponLootType == LootType.lootRifle || weaponLootType == LootType.lootShotty) 
         {
+            if(weaponLootType == LootType.lootRifle)
+            {
+                UiManager.Instance.ImageWeaponUpdate(1, true);
+                UiManager.Instance.ImageWeaponUpdate(2, false);
+            }
+            else
+            {
+                UiManager.Instance.ImageWeaponUpdate(1, false);
+                UiManager.Instance.ImageWeaponUpdate(2, true);
+            }
+
             if (_primaryWeapon != null)
             {
                 // Discard the old primary weapon, deduct whatever ammo here
