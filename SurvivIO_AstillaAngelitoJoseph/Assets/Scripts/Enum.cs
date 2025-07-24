@@ -15,3 +15,10 @@ public enum WeaponType
     shotty
 }
 
+public enum EnemyState
+{
+    Wander,
+    Seek,
+    Destroy
+}
+
