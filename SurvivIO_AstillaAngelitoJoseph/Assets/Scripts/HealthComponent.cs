@@ -6,23 +6,29 @@ public class HealthComponent : MonoBehaviour
 {
     [SerializeField] private float maxHealth;
     [SerializeField] private float currHealth;
+    [SerializeField] private bool _isAlive;
 
-    public float _getSetCurrentHP
+    public float GetCurrentHP()
     {
-        get { return currHealth; }
-        set { currHealth = value; }
+        return currHealth;
     }
 
-    public float _getSetMaxHP
+    public float SetCurrentHP(float value)
     {
-        get { return maxHealth; }
-        set { maxHealth = value; }
+        currHealth = value;
+        return currHealth;
+    }
+
+    public bool GetIsAlive
+    { 
+        get { return _isAlive; } 
     }
 
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         currHealth = maxHealth;
+        _isAlive = true;
     }
 
     public void ThisTakeDmg(float dmg)
@@ -32,8 +38,7 @@ public class HealthComponent : MonoBehaviour
 
         if (currHealth <= 0)
         {
-
-            Destroy(gameObject);
+            _isAlive = false;
         }
     }
 
@@ -42,6 +47,11 @@ public class HealthComponent : MonoBehaviour
         currHealth += healAmt;
 
         Mathf.Clamp(currHealth, currHealth, maxHealth);
+    }
+
+    public void ResetHealth()
+    {
+        currHealth = maxHealth;
     }
 
 }

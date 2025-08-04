@@ -6,22 +6,29 @@ using UnityEngine;
 public class LootSpawner : MonoBehaviour
 {
     [Header("Lootables")]
+    public List<GameObject> _lootables;
     [SerializeField] private GameObject[] _weaponLoot;
     [SerializeField] private GameObject[] _ammoLoot;
 
-    [SerializeField] private BoxCollider2D _spawnArea;
+    [SerializeField] private BoxCollider2D[] _spawnArea;
     [SerializeField] private int _numberOfLootItemsToSpawn = 10;
-    [SerializeField] private int _maxSpawnAttempts = 10; 
-    [SerializeField] private float _spawnCheckRadius = 0.5f;
 
-    // Start is called before the first frame update
-    private void Start()
+    public void SpawnLootInAllAreas()
     {
-        SpawnLoot();
-        //StartCoroutine(CO_SpawnLoot());
+
+        if (_spawnArea == null || _spawnArea.Length == 0)
+        {
+            Debug.LogWarning("No spawn areas have been assigned. Please assign BoxCollider2D objects to the _spawnAreas array.");
+            return;
+        }
+
+        foreach (BoxCollider2D spawnArea in _spawnArea)
+        {
+            SpawnLootInSingleArea(spawnArea);
+        }
     }
 
-    private void SpawnLoot()
+    private void SpawnLootInSingleArea(BoxCollider2D _spawnArea)
     { 
         float _weaponLootChance = 0.3f;
         //float _ammoLootChance = 0.7f;
@@ -29,24 +36,6 @@ public class LootSpawner : MonoBehaviour
         for (int i = 0; i < _numberOfLootItemsToSpawn; i++)
         {
             Vector2 randomSpawnPosition = Vector2.zero;
-            //bool positionFound = false;
-
-            /*
-            // Attempt to find a non-overlapping spawn position
-            for (int attempt = 0; attempt < _maxSpawnAttempts; attempt++)
-            {
-                randomSpawnPosition = RandomSpawnPointInCollider(_spawnArea);
-
-                // Check for overlaps using Physics2D.OverlapCircle
-                Collider2D hitCollider = Physics2D.OverlapCircle(randomSpawnPosition, _spawnCheckRadius);
-
-                if (hitCollider == null) 
-                {
-                    positionFound = true;
-                    break; 
-                }
-            }
-            */
             
             randomSpawnPosition = RandomSpawnPointInCollider(_spawnArea);
 
@@ -69,7 +58,7 @@ public class LootSpawner : MonoBehaviour
                 if (itemToInstantiate != null)
                 {
                     GameObject spawnedItem = Instantiate(itemToInstantiate, randomSpawnPosition, Quaternion.identity);
-                    //_spawnedLoot.Add(spawnedItem);
+                    _lootables.Add(spawnedItem);
                 }
             }
         }

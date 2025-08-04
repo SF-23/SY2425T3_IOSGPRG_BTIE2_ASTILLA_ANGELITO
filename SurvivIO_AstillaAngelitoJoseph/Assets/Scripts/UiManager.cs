@@ -12,6 +12,31 @@ public class UiManager : Singleton<UiManager>
     [SerializeField] private TextMeshProUGUI _currentWeaponAmmoTxt;
     [SerializeField] private GameObject[] _weaponImg;
 
+    [SerializeField] private TextMeshProUGUI _enemyCountTxt;
+
+    [SerializeField] private GameObject _startPanel;
+    [SerializeField] private GameObject _gameOverPanel;
+    [SerializeField] private GameObject _winPanel;
+
+    public void ToggleWin(bool isActive)
+    {
+        _winPanel.SetActive(!isActive);
+    }
+    public void ToggleGameOver(bool isActive)
+    {
+        _gameOverPanel.SetActive(!isActive);
+    }
+
+    public void ToggleStart(bool isActive)
+    {
+        _startPanel.SetActive(!isActive);
+    }
+
+    public void EnemyCountUpdate(int enemyCount)
+    {
+        _enemyCountTxt.text = enemyCount.ToString();
+    }
+
     public void PistolAmmoUpdate(int pistolAmmo)
     {
         _pistolAmmoTxt.text = pistolAmmo.ToString();

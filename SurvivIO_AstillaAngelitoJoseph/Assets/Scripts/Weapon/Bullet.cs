@@ -8,6 +8,11 @@ public class Bullet : MonoBehaviour
     [SerializeField] protected float _bulletSpeed;
     [SerializeField] protected float _bulletRange;
 
+    public float GetBulletDmg()
+    {
+        return _bulletDmg;
+    }
+
     public float SetBulletDmg(float _dmg)
     {
         _bulletDmg = _dmg;

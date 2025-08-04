@@ -27,8 +27,8 @@ public class PlayerMovement : MonoBehaviour
     {
        if(_joystickMovement.Direction.y != 0)
        {
-            _rb.velocity = new Vector2(_joystickMovement.Direction.x * _playerSpd * Time.deltaTime, 
-                                       _joystickMovement.Direction.y * _playerSpd * Time.deltaTime);
+            _rb.velocity = new Vector2(_joystickMovement.Direction.x * _playerSpd, 
+                                       _joystickMovement.Direction.y * _playerSpd);
        }
        else
        {

@@ -10,7 +10,7 @@ public struct WeaponStats
     public float _reloadTime;
     public float _weaponRange;
     public int _maxAmmo;
-    public int _minAmmo;
+    public int _clipCapacity;
     public int _currentAmmo;
     public int _bulletDamage; 
 }
@@ -21,28 +21,15 @@ public abstract class Weapon : MonoBehaviour
     public Transform _barrel;
     public bool _isFiring;
     public bool _isReloading;
-    public bool _isWeaponPickedUp;
+    public bool _isEnemyWeapon;
 
     public WeaponStats _weaponStats;
 
     [SerializeField] private PlayerWeaponHandler _weaponHandler;
 
-
-    // Start is called before the first frame update
     private void Start()
     {
-        //_weaponStats._currentAmmo = _weaponStats._maxAmmo;
-    }
 
-    // Update is called once per frame
-    private void Update()
-    {
-        /*
-        if (Input.GetKeyDown(KeyCode.Mouse0) && _isFiring && _isWeaponPickedUp) //&& !GameManager.instance.isGamePause)
-        {
-            StartCoroutine(CO_FiringWeapon());
-        }
-        */
     }
 
     public abstract void Shoot();
@@ -54,7 +41,6 @@ public abstract class Weapon : MonoBehaviour
         if(_weaponStats._currentAmmo <= 0)
         {
             StartCoroutine(CO_ReloadTimer());  
-            //PlaySFX for reloading
         }
         else
         {
@@ -79,8 +65,16 @@ public abstract class Weapon : MonoBehaviour
         Debug.Log("RELOADING");
         yield return new WaitForSeconds(_weaponStats._reloadTime);
         Debug.Log("RELOADING DONE");
-        _weaponHandler.ReloadCurrentWeapon();
-        //_weaponStats._currentAmmo = _weaponStats._maxAmmo;
+
+        if(!_isEnemyWeapon)
+        {
+            _weaponHandler.ReloadCurrentWeapon();
+        }
+        else
+        {
+            _weaponStats._currentAmmo = _weaponStats._maxAmmo;
+        }
+
         _isReloading = false;
         _isFiring = true;
     }

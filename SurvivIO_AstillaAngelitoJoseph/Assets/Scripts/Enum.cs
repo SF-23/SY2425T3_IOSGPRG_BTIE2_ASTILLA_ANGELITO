@@ -19,6 +19,5 @@ public enum EnemyState
 {
     Wander,
     Seek,
-    Destroy
 }
 

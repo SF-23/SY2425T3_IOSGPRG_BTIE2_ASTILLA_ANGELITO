@@ -23,7 +23,7 @@ public class Shotty : Weapon
         Quaternion randomBarrelRotation = Quaternion.Euler(0, 0, offsetZ);
         Quaternion finalBarrelRotation = _barrel.rotation * randomBarrelRotation;
 
-        GameObject bullet = Instantiate(_bulletPrefab, transform.position, finalBarrelRotation);
+        GameObject bullet = Instantiate(_bulletPrefab, _barrel.position, finalBarrelRotation);
         bullet.GetComponent<Bullet>().SetBulletDmg(_weaponStats._bulletDamage);
         bullet.GetComponent<Bullet>().SetBulletRange(_weaponStats._weaponRange);
     }

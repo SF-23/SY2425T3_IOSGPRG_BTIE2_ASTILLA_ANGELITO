@@ -14,7 +14,7 @@ public class Rifle : Weapon
 
     private void SpawnBullet()
     {
-        GameObject bullet = Instantiate(_bulletPrefab, transform.position, Quaternion.identity);
+        GameObject bullet = Instantiate(_bulletPrefab, _barrel.position, _barrel.rotation);
         bullet.GetComponent<Bullet>().SetBulletDmg(_weaponStats._bulletDamage);
         bullet.GetComponent<Bullet>().SetBulletRange(_weaponStats._weaponRange);
     }

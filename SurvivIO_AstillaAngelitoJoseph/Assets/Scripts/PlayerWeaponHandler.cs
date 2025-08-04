@@ -8,8 +8,8 @@ public class PlayerWeaponHandler : MonoBehaviour
 {
     [Header("Weapons In Hand")]
     //pistol, rifle, shotty (0,1,2)
-    [SerializeField] private GameObject[] _weaponInHand; 
     [SerializeField] public Weapon _currentEquippedWeapon;
+    [SerializeField] private GameObject[] _weaponInHand; 
     [SerializeField] private Weapon _primaryWeapon;
     [SerializeField] private Weapon _secondaryWeapon;
 
@@ -25,12 +25,23 @@ public class PlayerWeaponHandler : MonoBehaviour
     [SerializeField] private int _currShottyAmmoCount;
     [SerializeField] private int _maxShottyAmmoCount;
 
+    public void ResetWeaponHandler()
+    {
+        _primaryWeapon = null; 
+        _secondaryWeapon = null;
+        _currentEquippedWeapon = null;
+        _currPistolAmmoCount = 0;
+        _currRifleAmmoCount = 0;
+        _currShottyAmmoCount = 0;
+    }
+
     public void CurrentWeaponFire()
     {
         if (_currentEquippedWeapon != null)
         {
             StartCoroutine(_currentEquippedWeapon.CO_FiringWeapon());
-            UiManager.Instance.CurrentWeaponAmmoUpdate(_currentEquippedWeapon._weaponStats._currentAmmo, 8);
+            UiManager.Instance.CurrentWeaponAmmoUpdate(_currentEquippedWeapon._weaponStats._currentAmmo, 
+                                                       _currentEquippedWeapon._weaponStats._clipCapacity);
         }
         else
         {
@@ -40,29 +51,68 @@ public class PlayerWeaponHandler : MonoBehaviour
 
     public void ReloadCurrentWeapon()
     {
-        if(_currentEquippedWeapon != null && _currentEquippedWeapon._weaponStats._currentAmmo <=0) 
-        { 
-           switch(_currentEquippedWeapon._weaponStats._weaponType)
-           {
+        if (_currentEquippedWeapon == null)
+        {
+            Debug.LogWarning("No weapon equipped to reload!");
+            return;
+        }
+
+        int clipCapacity = _currentEquippedWeapon._weaponStats._clipCapacity;
+        int currentAmmoInMag = _currentEquippedWeapon._weaponStats._currentAmmo;
+        int ammoNeeded = clipCapacity - currentAmmoInMag;
+
+        if (ammoNeeded <= 0)
+        {
+            Debug.Log("Magazine is already full.");
+            return;
+        }
+
+        int totalAmmoCarried = 0;
+        switch (_currentEquippedWeapon._weaponStats._weaponType)
+        {
+            case WeaponType.pistol:
+                totalAmmoCarried = _currPistolAmmoCount;
+                break;
+            case WeaponType.rifle:
+                totalAmmoCarried = _currRifleAmmoCount;
+                break;
+            case WeaponType.shotty:
+                totalAmmoCarried = _currShottyAmmoCount;
+                break;
+        }
+
+        if (totalAmmoCarried > 0)
+        {
+            // Calculate how much ammo to take from the total carry
+            int ammoToLoad = Mathf.Min(ammoNeeded, totalAmmoCarried);
+
+            // Update the current weapon's ammo
+            _currentEquippedWeapon._weaponStats._currentAmmo += ammoToLoad;
+
+            // Update the player's total carried ammo
+            switch (_currentEquippedWeapon._weaponStats._weaponType)
+            {
                 case WeaponType.pistol:
-                    LoadMagazine(_currPistolAmmoCount, 8, _currentEquippedWeapon);
-                    UiManager.Instance.CurrentWeaponAmmoUpdate(_currentEquippedWeapon._weaponStats._currentAmmo, 8);
-                    UiManager.Instance.PistolAmmoUpdate(_currRifleAmmoCount);
+                    _currPistolAmmoCount -= ammoToLoad;
+                    UiManager.Instance.PistolAmmoUpdate(_currPistolAmmoCount);
                     break;
                 case WeaponType.rifle:
-                    LoadMagazine(_currRifleAmmoCount, 30, _currentEquippedWeapon);
-                    UiManager.Instance.CurrentWeaponAmmoUpdate(_currentEquippedWeapon._weaponStats._currentAmmo, 30);
+                    _currRifleAmmoCount -= ammoToLoad;
                     UiManager.Instance.RifleAmmoUpdate(_currRifleAmmoCount);
                     break;
                 case WeaponType.shotty:
-                    LoadMagazine(_currPistolAmmoCount, 2, _currentEquippedWeapon);
-                    UiManager.Instance.CurrentWeaponAmmoUpdate(_currentEquippedWeapon._weaponStats._currentAmmo, 2);
+                    _currShottyAmmoCount -= ammoToLoad;
                     UiManager.Instance.ShottyAmmoUpdate(_currShottyAmmoCount);
                     break;
-                default:
-                    Debug.LogWarning("ERROR");
-                    break;
             }
+
+            // Update the UI for the equipped weapon's magazine
+            UiManager.Instance.CurrentWeaponAmmoUpdate(_currentEquippedWeapon._weaponStats._currentAmmo, clipCapacity);
+            Debug.Log($"Reloaded {_currentEquippedWeapon._weaponStats._weaponType}. Loaded {ammoToLoad} rounds.");
+        }
+        else
+        {
+            Debug.Log("No Ammo to reload!");
         }
     }
 
@@ -72,7 +122,7 @@ public class PlayerWeaponHandler : MonoBehaviour
         if (_primaryWeapon != null)
         {
             _currentEquippedWeapon = _primaryWeapon;
-            UiManager.Instance.CurrentWeaponAmmoUpdate(_currentEquippedWeapon._weaponStats._currentAmmo, 8);
+            UiManager.Instance.CurrentWeaponAmmoUpdate(_currentEquippedWeapon._weaponStats._currentAmmo, _currentEquippedWeapon._weaponStats._maxAmmo);
             UpdateWeaponVisuals();
         }
     }
@@ -83,23 +133,9 @@ public class PlayerWeaponHandler : MonoBehaviour
         if (_secondaryWeapon != null)
         {
             _currentEquippedWeapon = _secondaryWeapon;
-            UiManager.Instance.CurrentWeaponAmmoUpdate(_currentEquippedWeapon._weaponStats._currentAmmo, 8);
+            UiManager.Instance.CurrentWeaponAmmoUpdate(_currentEquippedWeapon._weaponStats._currentAmmo, _currentEquippedWeapon._weaponStats._maxAmmo);
             UpdateWeaponVisuals();
         }
-    }
-
-    private void LoadMagazine(int ammoTypeCount, int magSize, Weapon weapon)
-    {
-        if (ammoTypeCount != 0)
-        {
-            ammoTypeCount -= magSize;
-            weapon._weaponStats._maxAmmo = magSize;
-        }
-        else
-        {
-            Debug.Log("No Ammo!");
-        }
-        weapon._weaponStats._currentAmmo = weapon._weaponStats._maxAmmo;
     }
 
     private void HandleWeaponPickup(Weapon newWeapon, LootType weaponLootType)
@@ -117,7 +153,7 @@ public class PlayerWeaponHandler : MonoBehaviour
             {
                 // Discard the old pistol, deduct whatever ammo here
                 Debug.Log("Discarded old secondary weapon: " + _secondaryWeapon.name);
-                // and we'll just re-assign the reference. The visual will be handled by UpdateWeaponVisuals.
+                // and we'll just re-assign the reference. The visual will be handled by UpdateWeaponVisuals
             }
             _secondaryWeapon = newWeapon;
         }
@@ -174,15 +210,35 @@ public class PlayerWeaponHandler : MonoBehaviour
             switch(_lootItem._lootType)
             {
                 case LootType.pistolAmmo:
-                    _currPistolAmmoCount += Random.Range(4, 15);
+
+                    if(_currPistolAmmoCount <= 90)
+                    {
+                        _currPistolAmmoCount += Random.Range(1, 8);
+                        Mathf.Clamp(_currPistolAmmoCount, 1, _maxPistolAmmoCount);
+                    }
+                    
                     UiManager.Instance.PistolAmmoUpdate(_currPistolAmmoCount);
+
                     break;
                 case LootType.shottyAmmo:
-                    _currShottyAmmoCount += Random.Range(1, 5);
+
+                    if(_currShottyAmmoCount <= 60)
+                    {
+                        _currShottyAmmoCount += Random.Range(1, 2);
+                        Mathf.Clamp(_currPistolAmmoCount, 1, _maxShottyAmmoCount);
+                    }
+
                     UiManager.Instance.ShottyAmmoUpdate(_currShottyAmmoCount);
                     break;
+
                 case LootType.rifleAmmo:
-                    _currRifleAmmoCount += Random.Range(2, 10);
+
+                    if(_currRifleAmmoCount <= 120)
+                    {
+                        _currRifleAmmoCount += Random.Range(5, 15);
+                        Mathf.Clamp(_currRifleAmmoCount, 1, _maxRifleAmmoCount);
+                    }
+                    
                     UiManager.Instance.RifleAmmoUpdate(_currRifleAmmoCount);
                     break;
                 case LootType.lootPistol:
